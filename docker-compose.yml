@@ -1,0 +1,131 @@
+version: "3"
+
+services:
+  relay-node-alice:
+    image: parity/rococo:rococo-v1
+    command:
+      [
+        "--chain=/data/spec/${POLKADOT_RAW_SPEC_FILE}",
+        "--ws-external",
+        "--rpc-external",
+        "--unsafe-rpc-external",
+        "--rpc-methods=unsafe",
+        "--rpc-cors=all",
+        "--validator",
+        "--node-key-file=/data/spec/alice.key",
+        "--alice",
+      ]
+    volumes:
+      - ./volume/relay:/data/spec/
+    ports:
+      - 9944:9944
+    expose:
+      - 30333
+
+  relay-node-bob:
+    image: parity/rococo:rococo-v1
+    command:
+      [
+        "--chain=/data/spec/${POLKADOT_RAW_SPEC_FILE}",
+        "--ws-port=9945",
+        "--ws-external",
+        "--rpc-external",
+        "--rpc-cors=all",
+        "--unsafe-rpc-external",
+        "--rpc-methods=unsafe",
+        "--validator",
+        "--node-key-file=/data/spec/bob.key",
+        "--bob",
+      ]
+    volumes:
+      - ./volume/relay:/data/spec/
+    ports:
+      - 9945:9945
+    expose:
+      - 30333
+  
+  relay-node-charlie:
+    image: parity/rococo:rococo-v1
+    command:
+      [
+        "--chain=/data/spec/${POLKADOT_RAW_SPEC_FILE}",
+        "--ws-port=9946",
+        "--ws-external",
+        "--rpc-external",
+        "--rpc-cors=all",
+        "--unsafe-rpc-external",
+        "--rpc-methods=unsafe",
+        "--validator",
+        "--node-key-file=/data/spec/charlie.key",
+        "--charlie",
+      ]
+    volumes:
+      - ./volume/relay:/data/spec/
+    ports:
+      - 9946:9946
+    expose:
+      - 30333
+  
+  kilt-collator-alice:
+    image: kilt-collator:latest
+    volumes:
+      - ./volume/para-kilt:/data/spec/
+    command:
+      [
+        "--parachain-id=${KILT_ID}",
+        "--port=30336",
+        "--ws-port=9947",
+        "--ws-external",
+        "--rpc-external",
+        "--rpc-cors=all",
+        "--unsafe-rpc-external",
+        "--rpc-methods=unsafe",
+        "--chain=/data/spec/${KILT_RAW_SPEC_FILE}",
+        "--collator",
+        "--",
+        "--port=30333",
+        "--chain=/data/spec/${POLKADOT_RAW_SPEC_FILE}",
+        "--node-key-file=/data/spec/charlie.key",
+        "--execution=wasm",
+      ]
+    ports:
+      - 9947:9947
+    expose:
+      - 30336
+      - 30333
+    depends_on:
+      - relay-node-alice
+      - relay-node-bob
+      - relay-node-charlie
+
+  acala-collator-alice:
+    image: acala/acala-node:pc-86cbe02
+    volumes:
+      - ./volume/para-acala:/data/spec/
+    command:
+      [
+        "--parachain-id=${ACALA_ID}",
+        "--port=30336",
+        "--ws-port=9948",
+        "--ws-external",
+        "--rpc-external",
+        "--rpc-cors=all",
+        "--unsafe-rpc-external",
+        "--rpc-methods=unsafe",
+        "--chain=dev",
+        "--collator",
+        "--",
+        "--port=30333",
+        "--chain=/data/spec/${POLKADOT_RAW_SPEC_FILE}",
+        "--node-key-file=/data/spec/charlie.key",
+        "--execution=wasm",
+      ]
+    ports:
+      - 9948:9948
+    expose:
+      - 30336
+      - 30333
+    depends_on:
+      - relay-node-alice
+      - relay-node-bob
+      - relay-node-charlie
