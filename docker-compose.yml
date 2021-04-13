@@ -67,7 +67,7 @@ services:
       - 30333
   
   kilt-collator-alice:
-    image: kilt-collator:latest
+    image: ${KILT_IMG}
     volumes:
       - ./volume/para-kilt:/data/spec/
     command:
@@ -99,7 +99,7 @@ services:
       - relay-node-charlie
 
   acala-collator-alice:
-    image: acala/acala-node:pc-86cbe02
+    image: ${ACALA_IMG}
     volumes:
       - ./volume/para-acala:/data/spec/
     command:
