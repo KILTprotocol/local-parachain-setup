@@ -15,10 +15,7 @@ docker run $KILT_IMG build-spec --chain $KILT_BASE_SPEC --disable-default-bootno
 docker run $ACALA_IMG build-spec --chain $ACALA_SPEC --disable-default-bootnode --raw > acala.raw.json
 
 ## MODIFY SPECS
-## jq -f update-kilt.jq $KILT_PLAIN_SPEC_FILE | sponge $KILT_PLAIN_SPEC_FILE
-
-echo "setup plain chainspecs in /specs"
-read -p "Press Enter to continue" </dev/tty
+jq -f update-kilt.jq $KILT_PLAIN_SPEC_FILE | sponge $KILT_PLAIN_SPEC_FILE
 
 ## BUILD RAW SPECS
 docker run -v $PWD:/data $KILT_IMG build-spec --chain /data/$KILT_PLAIN_SPEC_FILE --disable-default-bootnode --raw > $KILT_RAW_SPEC_FILE
