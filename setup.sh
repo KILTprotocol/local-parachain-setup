@@ -12,6 +12,8 @@ pushd specs
 ## BUILD PLAIN SPECS
 # docker run $ACALA_IMG build-spec --chain $ACALA_SPEC --disable-default-bootnode > acala.plain.json
 docker run $KILT_IMG build-spec --chain $KILT_BASE_SPEC --disable-default-bootnode > $KILT_PLAIN_SPEC_FILE
+docker run $POLKADOT_IMG build-spec --chain $POLKADOT_SPEC --raw --disable-default-bootnode > rococo.json
+
 docker run $ACALA_IMG build-spec --chain $ACALA_SPEC --disable-default-bootnode --raw > acala.raw.json
 
 ## MODIFY SPECS
@@ -20,7 +22,6 @@ jq -f update-kilt.jq $KILT_PLAIN_SPEC_FILE | sponge $KILT_PLAIN_SPEC_FILE
 ## BUILD RAW SPECS
 docker run -v $PWD:/data $KILT_IMG build-spec --chain /data/$KILT_PLAIN_SPEC_FILE --disable-default-bootnode --raw > $KILT_RAW_SPEC_FILE
 
-docker run $POLKADOT_IMG build-spec --chain $POLKADOT_SPEC --raw --disable-default-bootnode > $POLKADOT_RAW_SPEC_FILE
 
 
 ## SETUP PARACHAINS
