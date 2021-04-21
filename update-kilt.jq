@@ -1,2 +1,2 @@
-.para_id = 12623
-| .genesis.runtime.parachainInfo.parachainId = 12623
+.para_id = ($KILT_ID | tonumber)
+| .genesis.runtime.parachainInfo.parachainId = ($KILT_ID | tonumber)
