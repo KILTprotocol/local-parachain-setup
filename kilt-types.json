@@ -136,22 +136,8 @@
     "Permissions": "u32",
     "PublicBoxKey": "Hash",
     "PublicSigningKey": "Hash",
-    "XCurrencyId": {
-        "chainId": "ChainId",
-        "currencyId": "Vec<u8>"
-    },
-    "ChainId": {
-        "_enum": {
-            "RelayChain": "Null",
-            "ParaChain": "ParaId"
-        }
-    },
-    "CurrencyIdOf": "CurrencyId",
-    "CurrencyId": {
-        "_enum": {
-            "Dot": 0,
-            "Ksm": 1,
-            "Kilt": 2
-        }
+    "BackingInfo": {
+        "candidancyTerm": "BlockNumber",
+        "amount": "Balance"
     }
 }
