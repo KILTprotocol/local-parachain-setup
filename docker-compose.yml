@@ -91,7 +91,6 @@ services:
     command:
       [
         "--no-mdns",
-        "--parachain-id=${KILT_ID}",
         "--port=30336",
         "--ws-port=9947",
         "--ws-external",
@@ -99,11 +98,11 @@ services:
         "--rpc-cors=all",
         "--unsafe-rpc-external",
         "--rpc-methods=unsafe",
-        "--chain=/node/dev-specs/kilt-parachain/kilt-stage.json",
+        "--chain=/node/dev-specs/kilt-parachain/peregrine-kilt.json",
         "--validator",
         "--",
         "--port=30333",
-        "--chain=/node/dev-specs/kilt-parachain/relay-stage.json",
+        "--chain=/node/dev-specs/kilt-parachain/peregrine-relay.json",
         "--execution=wasm",
         "--bootnodes",
         "/dns4/relay-node-alice/tcp/30333/p2p/12D3KooWPU8zhfbYjr6mGuDdrrkQMFfDm2edXFYkkkmyCBont8K5",
