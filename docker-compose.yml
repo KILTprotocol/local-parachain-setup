@@ -5,6 +5,7 @@ services:
     image: ${POLKADOT_IMG}
     command:
       [
+        "--port=30333",
         "--no-mdns",
         "--chain=/data/spec/${POLKADOT_RAW_SPEC_FILE}",
         "--ws-port=9944",
@@ -18,15 +19,16 @@ services:
         "--node-key-file=/data/spec/relay/alice.key",
         "--bootnodes",
         "/dns4/relay-node-alice/tcp/30333/p2p/12D3KooWPU8zhfbYjr6mGuDdrrkQMFfDm2edXFYkkkmyCBont8K5",
-        "/dns4/relay-node-bob/tcp/30333/p2p/12D3KooWGFFpuUgFSFwNVLeVhNJ6m25jgv15pK8xcbdqaAj9gfnc",
-        "/dns4/relay-node-charlie/tcp/30333/p2p/12D3KooWPaFM8dPrm5GodDmggNPNLrKLUzDnLYuEStVZ7sesjrrW",
+        "/dns4/relay-node-bob/tcp/30334/p2p/12D3KooWGFFpuUgFSFwNVLeVhNJ6m25jgv15pK8xcbdqaAj9gfnc",
+        "/dns4/relay-node-charlie/tcp/30335/p2p/12D3KooWPaFM8dPrm5GodDmggNPNLrKLUzDnLYuEStVZ7sesjrrW",
         "--base-path=/data/db"
       ]
     volumes:
       - ./specs:/data/spec/
-      # - ./volume/data:/data/db/
+      - ./volume/relay-node-alice:/data/db/
     ports:
       - 9944:9944
+      - 30333:30333
     expose:
       - 30333
 
@@ -34,6 +36,7 @@ services:
     image: ${POLKADOT_IMG}
     command:
       [
+        "--port=30334",
         "--no-mdns",
         "--chain=/data/spec/${POLKADOT_RAW_SPEC_FILE}",
         "--ws-port=9945",
@@ -47,20 +50,24 @@ services:
         "--bob",
         "--bootnodes",
         "/dns4/relay-node-alice/tcp/30333/p2p/12D3KooWPU8zhfbYjr6mGuDdrrkQMFfDm2edXFYkkkmyCBont8K5",
-        "/dns4/relay-node-bob/tcp/30333/p2p/12D3KooWGFFpuUgFSFwNVLeVhNJ6m25jgv15pK8xcbdqaAj9gfnc",
-        "/dns4/relay-node-charlie/tcp/30333/p2p/12D3KooWPaFM8dPrm5GodDmggNPNLrKLUzDnLYuEStVZ7sesjrrW",
+        "/dns4/relay-node-bob/tcp/30334/p2p/12D3KooWGFFpuUgFSFwNVLeVhNJ6m25jgv15pK8xcbdqaAj9gfnc",
+        "/dns4/relay-node-charlie/tcp/30335/p2p/12D3KooWPaFM8dPrm5GodDmggNPNLrKLUzDnLYuEStVZ7sesjrrW",
+        "--base-path=/data/db"
       ]
     volumes:
       - ./specs:/data/spec/
+      - ./volume/relay-node-bob:/data/db/
     ports:
       - 9945:9945
+      - 30334:30334
     expose:
-      - 30333
+      - 30334
   
   relay-node-charlie:
     image: ${POLKADOT_IMG}
     command:
       [
+        "--port=30335",
         "--no-mdns",
         "--chain=/data/spec/${POLKADOT_RAW_SPEC_FILE}",
         "--ws-port=9946",
@@ -74,51 +81,57 @@ services:
         "--charlie",
         "--bootnodes",
         "/dns4/relay-node-alice/tcp/30333/p2p/12D3KooWPU8zhfbYjr6mGuDdrrkQMFfDm2edXFYkkkmyCBont8K5",
-        "/dns4/relay-node-bob/tcp/30333/p2p/12D3KooWGFFpuUgFSFwNVLeVhNJ6m25jgv15pK8xcbdqaAj9gfnc",
-        "/dns4/relay-node-charlie/tcp/30333/p2p/12D3KooWPaFM8dPrm5GodDmggNPNLrKLUzDnLYuEStVZ7sesjrrW",
+        "/dns4/relay-node-bob/tcp/30334/p2p/12D3KooWGFFpuUgFSFwNVLeVhNJ6m25jgv15pK8xcbdqaAj9gfnc",
+        "/dns4/relay-node-charlie/tcp/30335/p2p/12D3KooWPaFM8dPrm5GodDmggNPNLrKLUzDnLYuEStVZ7sesjrrW",
+        "--base-path=/data/db"
       ]
     volumes:
       - ./specs:/data/spec/
+      - ./volume/relay-node-charlie:/data/db/
     ports:
       - 9946:9946
+      - 30335:30335
     expose:
-      - 30333
+      - 30335
   
   kilt-collator-alice:
     image: ${KILT_IMG}
     volumes:
       - ./specs:/data/spec/
+      - ./volume/kilt-collator-alice:/data/db/
     command:
       [
+        "--base-path=/data/db",
         "--no-mdns",
-        "--port=30336",
+        "--port=40333",
         "--ws-port=9947",
         "--ws-external",
         "--rpc-external",
         "--rpc-cors=all",
         "--unsafe-rpc-external",
         "--rpc-methods=unsafe",
-        "--chain=spiritnet-dev",
-        "--runtime=spiritnet",
+        "--chain=/node/dev-specs/kilt-parachain/peregrine-kilt.json",
+        "--runtime=mashnet",
         "--validator",
         "--alice",
         "--node-key-file=/data/spec/para-kilt/alice.key",
         "--bootnodes",
-        "/dns4/kilt-collator-alice/tcp/30336/p2p/12D3KooWPn1AKtsLYy6EYtXBgb6fQNw4MkLeBsyvPRV5DxAhvQ8M",
-        "/dns4/kilt-collator-bob/tcp/30336/p2p/12D3KooWMW6NQPgzHkroN6mtnGjfETVPw2G1NqkV5YW7VfzLxHCX",
+        "/dns4/kilt-collator-alice/tcp/40333/p2p/12D3KooWPn1AKtsLYy6EYtXBgb6fQNw4MkLeBsyvPRV5DxAhvQ8M",
+        "/dns4/kilt-collator-bob/tcp/40334/p2p/12D3KooWMW6NQPgzHkroN6mtnGjfETVPw2G1NqkV5YW7VfzLxHCX",
         "--",
         "--port=30333",
         "--chain=/node/dev-specs/kilt-parachain/peregrine-relay.json",
         "--execution=wasm",
         "--bootnodes",
         "/dns4/relay-node-alice/tcp/30333/p2p/12D3KooWPU8zhfbYjr6mGuDdrrkQMFfDm2edXFYkkkmyCBont8K5",
-        "/dns4/relay-node-bob/tcp/30333/p2p/12D3KooWGFFpuUgFSFwNVLeVhNJ6m25jgv15pK8xcbdqaAj9gfnc",
-        "/dns4/relay-node-charlie/tcp/30333/p2p/12D3KooWPaFM8dPrm5GodDmggNPNLrKLUzDnLYuEStVZ7sesjrrW",
+        "/dns4/relay-node-bob/tcp/30334/p2p/12D3KooWGFFpuUgFSFwNVLeVhNJ6m25jgv15pK8xcbdqaAj9gfnc",
+        "/dns4/relay-node-charlie/tcp/30335/p2p/12D3KooWPaFM8dPrm5GodDmggNPNLrKLUzDnLYuEStVZ7sesjrrW",
       ]
     ports:
       - 9947:9947
+      - 40333:40333
     expose:
-      - 30336
+      - 40333
       - 30333
     depends_on:
       - relay-node-alice
@@ -129,37 +142,40 @@ services:
     image: ${KILT_IMG}
     volumes:
       - ./specs:/data/spec/
+      - ./volume/kilt-collator-bob:/data/db/
     command:
       [
+        "--base-path=/data/db",
         "--no-mdns",
-        "--port=30336",
+        "--port=40334",
         "--ws-port=9947",
         "--ws-external",
         "--rpc-external",
         "--rpc-cors=all",
         "--unsafe-rpc-external",
         "--rpc-methods=unsafe",
-        "--chain=spiritnet-dev",
-        "--runtime=spiritnet",
+        "--chain=/node/dev-specs/kilt-parachain/peregrine-kilt.json",
+        "--runtime=mashnet",
         "--validator",
         "--bob",
         "--node-key-file=/data/spec/para-kilt/bob.key",
         "--bootnodes",
-        "/dns4/kilt-collator-alice/tcp/30336/p2p/12D3KooWPn1AKtsLYy6EYtXBgb6fQNw4MkLeBsyvPRV5DxAhvQ8M",
-        "/dns4/kilt-collator-bob/tcp/30336/p2p/12D3KooWMW6NQPgzHkroN6mtnGjfETVPw2G1NqkV5YW7VfzLxHCX",
+        "/dns4/kilt-collator-alice/tcp/40333/p2p/12D3KooWPn1AKtsLYy6EYtXBgb6fQNw4MkLeBsyvPRV5DxAhvQ8M",
+        "/dns4/kilt-collator-bob/tcp/40334/p2p/12D3KooWMW6NQPgzHkroN6mtnGjfETVPw2G1NqkV5YW7VfzLxHCX",
         "--",
         "--port=30333",
         "--chain=/node/dev-specs/kilt-parachain/peregrine-relay.json",
         "--execution=wasm",
         "--bootnodes",
         "/dns4/relay-node-alice/tcp/30333/p2p/12D3KooWPU8zhfbYjr6mGuDdrrkQMFfDm2edXFYkkkmyCBont8K5",
-        "/dns4/relay-node-bob/tcp/30333/p2p/12D3KooWGFFpuUgFSFwNVLeVhNJ6m25jgv15pK8xcbdqaAj9gfnc",
-        "/dns4/relay-node-charlie/tcp/30333/p2p/12D3KooWPaFM8dPrm5GodDmggNPNLrKLUzDnLYuEStVZ7sesjrrW",
+        "/dns4/relay-node-bob/tcp/30334/p2p/12D3KooWGFFpuUgFSFwNVLeVhNJ6m25jgv15pK8xcbdqaAj9gfnc",
+        "/dns4/relay-node-charlie/tcp/30335/p2p/12D3KooWPaFM8dPrm5GodDmggNPNLrKLUzDnLYuEStVZ7sesjrrW",
       ]
     ports:
       - 9948:9948
+      - 40334:40334
     expose:
-      - 30336
+      - 40334
       - 30333
     depends_on:
       - relay-node-alice
