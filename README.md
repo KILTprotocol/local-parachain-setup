@@ -1,21 +1,11 @@
 # How to setup Parachain
 
-## install dependencies
-
-The scripts need the master version of jq (with big int support) and sponge.
-
-```
-brew install --HEAD jq
-brew install sponge
-```
-
-## setup
-
-- generate genesis
-- build wasm
-- update rococo and parachain spec
+- execute the `run.sh` script
+  - it uses the [docker compose CLI](https://docs.docker.com/compose/cli-command/) aka `docker compose` not `docker-compose`
+- select the image to run in `.env`
+- Parachain ID should be `12555`, but can be looked up at Developer > Chain State > parachainInfo::parachainId
 
 ## register
 
 - register parachain: Network > Parachains > Parathreads -> `+ Register`
-- Sudo > slots > forceLease
+- Sudo > slots::forceLease
