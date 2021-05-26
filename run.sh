@@ -9,15 +9,10 @@ set +o allexport
 # TEARDOWN AND DELETE
 docker compose down
 
-./setup.sh
+# Get relay chain spec, genesis wasm+head
 
-# COPY SPECS
-cp $POLKADOT_RAW_SPEC_FILE volume/para-acala
-cp $POLKADOT_RAW_SPEC_FILE volume/para-kilt
-cp $POLKADOT_RAW_SPEC_FILE volume/relay
+docker run $KILT_IMG export-genesis-state --chain=/node/dev-specs/kilt-parachain/peregrine-kilt.json --runtime=spiritnet > specs/kilt-genesis.hex
+docker run $KILT_IMG export-genesis-wasm --chain=/node/dev-specs/kilt-parachain/peregrine-kilt.json --runtime=spiritnet > specs/kilt.wasm
+docker run --entrypoint cat $KILT_IMG /node/dev-specs/kilt-parachain/peregrine-relay.json > specs/polkadot.raw.json
 
-cp $KILT_RAW_SPEC_FILE volume/para-kilt
-cp acala.raw.json volume/para-acala
-
-# START
 docker compose up -d
