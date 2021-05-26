@@ -1,10 +1,60 @@
 {
-    "BlockNumber": "u64",
-    "Balance": "u128",
+    "AccountInfo": "AccountInfoWithTripleRefCount",
+    "Address": "MultiAddress",
     "AmountOf": "i128",
+    "Balance": "u128",
+    "BlockNumber": "u64",
     "Index": "u64",
-    "DidIdentifier": "Address",
-    "DidVerificationKeyType": {
+    "LookupSource": "MultiAddress",
+    "CtypeCreatorOf": "DidIdentifierOf",
+    "CtypeHashOf": "Hash",
+    "ClaimHashOf": "Hash",
+    "AttesterOf": "DidIdentifierOf",
+    "AttestationDetails": {
+        "ctypeHash": "CtypeHashOf",
+        "attester": "AttesterOf",
+        "delegationId": "Option<DelegationNodeIdOf>",
+        "revoked": "bool"
+    },
+    "Permissions": "u32",
+    "DelegationNodeIdOf": "Hash",
+    "DelegatorIdOf": "DidIdentifierOf",
+    "DelegationSignature": "DidSignature",
+    "DelegationRoot": {
+        "ctypeHash": "CtypeHashOf",
+        "owner": "DelegatorIdOf",
+        "revoked": "bool"
+    },
+    "DelegationNode": {
+        "rootId": "DelegationNodeIdOf",
+        "parent": "Option<DelegationNodeIdOf>",
+        "owner": "DelegatorIdOf",
+        "permissions": "Permissions",
+        "revoked": "bool"
+    },
+    "KeyIdOf": "Hash",
+    "DidIdentifierOf": "AccountId",
+    "AccountIdentifierOf": "AccountId",
+    "BlockNumberOf": "BlockNumber",
+    "DidCallableOf": "Call",
+    "DidVerificationKey": {
+        "_enum": {
+            "Ed25519": "[u8; 32]",
+            "Sr25519": "[u8; 32]"
+        }
+    },
+    "DidEncryptionKey": {
+        "_enum": {
+            "X25519": "[u8; 32]"
+        }
+    },
+    "DidPublicKey": {
+        "_enum": {
+            "PublicVerificationKey": "DidVerificationKey",
+            "PublicEncryptionKey": "DidEncryptionKey"
+        }
+    },
+    "DidVerificationKeyRelationship": {
         "_enum": [
             "Authentication",
             "CapabilityDelegation",
@@ -12,53 +62,41 @@
             "AssertionMethod"
         ]
     },
-    "DidEncryptionKeyType": {
-        "_enum": [
-            "KeyAgreement"
-        ]
-    },
-    "PublicVerificationKey": {
-        "_enum": {
-            "Ed25519": "[u8; 32]",
-            "Sr25519": "[u8; 32]"
-        }
-    },
     "DidSignature": {
         "_enum": {
             "Ed25519": "Ed25519Signature",
             "Sr25519": "Sr25519Signature"
         }
     },
-    "PublicEncryptionKey": {
-        "_enum": {
-            "X55519": "[u8; 32]"
-        }
-    },
     "DidError": {
         "_enum": {
             "StorageError": "StorageError",
             "SignatureError": "SignatureError",
-            "OperationError": "OperationError",
-            "UrlError": "UrlError"
+            "UrlError": "UrlError",
+            "InternalError": "Null"
         }
     },
     "StorageError": {
         "_enum": {
-            "DidAlreadyPresent": "null",
-            "DidNotPresent": "null",
-            "DidKeyNotPresent": "DidVerificationKeyType",
-            "VerificationKeysNotPresent": "Vec<PublicVerificationKey>"
+            "DidAlreadyPresent": "Null",
+            "DidNotPresent": "Null",
+            "DidKeyNotPresent": "DidVerificationKeyRelationship",
+            "VerificationKeyNotPresent": "Null",
+            "CurrentlyActiveKey": "Null",
+            "MaxTxCounterValue": "Null"
         }
     },
     "SignatureError": {
         "_enum": [
             "InvalidSignatureFormat",
-            "InvalidSignature"
+            "InvalidSignature",
+            "InvalidNonce"
         ]
     },
-    "OperationError": {
+    "KeyError": {
         "_enum": [
-            "InvalidNonce"
+            "InvalidVerificationKeyFormat",
+            "InvalidEncryptionKeyFormat"
         ]
     },
     "UrlError": {
@@ -67,12 +105,52 @@
             "InvalidUrlScheme"
         ]
     },
-    "Url": {
+    "DidPublicKeyDetails": {
+        "key": "DidPublicKey",
+        "blockNumber": "BlockNumberOf"
+    },
+    "DidDetails": {
+        "authenticationKey": "KeyIdOf",
+        "keyAgreementKeys": "BTreeSet<KeyIdOf>",
+        "delegationKey": "Option<KeyIdOf>",
+        "attestationKey": "Option<KeyIdOf>",
+        "publicKeys": "BTreeMap<KeyIdOf, DidPublicKeyDetails>",
+        "endpointUrl": "Option<Url>",
+        "lastTxCounter": "u64"
+    },
+    "DidCreationOperation": {
+        "did": "DidIdentifierOf",
+        "newAuthenticationKey": "DidVerificationKey",
+        "newKeyAgreementKeys": "BTreeSet<DidEncryptionKey>",
+        "newAttestationKey": "Option<DidVerificationKey>",
+        "newDelegationKey": "Option<DidVerificationKey>",
+        "newEndpointUrl": "Option<Url>"
+    },
+    "DidUpdateOperation": {
+        "did": "DidIdentifierOf",
+        "newAuthenticationKey": "Option<DidVerificationKey>",
+        "newKeyAgreementKeys": "BTreeSet<DidEncryptionKey>",
+        "attestationKeyUpdate": "DidVerificationKeyUpdateAction",
+        "delegationKeyUpdate": "DidVerificationKeyUpdateAction",
+        "publicKeysToRemove": "BTreeSet<KeyIdOf>",
+        "newEndpointUrl": "Option<Url>",
+        "txCounter": "u64"
+    },
+    "DidVerificationKeyUpdateAction": {
         "_enum": {
-            "Http": "HttpUrl",
-            "Ftp": "FtpUrl",
-            "Ipfs": "IpfsUrl"
+            "Ignore": "Null",
+            "Change": "DidVerificationKey",
+            "Delete": "Null"
         }
+    },
+    "DidDeletionOperation": {
+        "did": "DidIdentifierOf",
+        "txCounter": "u64"
+    },
+    "DidAuthorizedCallOperation": {
+        "did": "DidIdentifierOf",
+        "txCounter": "u64",
+        "call": "DidCallableOf"
     },
     "HttpUrl": {
         "payload": "Text"
@@ -83,61 +161,65 @@
     "IpfsUrl": {
         "payload": "Text"
     },
-    "DidCreationOperation": {
-        "did": "DidIdentifier",
-        "new_auth_key": "PublicVerificationKey",
-        "new_key_agreement_key": "PublicEncryptionKey",
-        "new_attestation_key": "Option<PublicVerificationKey>",
-        "new_delegation_key": "Option<PublicVerificationKey>",
-        "new_endpoint_url": "Option<Url>"
+    "Url": {
+        "_enum": {
+            "Http": "HttpUrl",
+            "Ftp": "FtpUrl",
+            "Ipfs": "IpfsUrl"
+        }
     },
-    "DidUpdateOperation": {
-        "did": "DidIdentifier",
-        "new_auth_key": "Option<PublicVerificationKey>",
-        "new_key_agreement_key": "Option<PublicEncryptionKey>",
-        "new_attestation_key": "Option<PublicVerificationKey>",
-        "new_delegation_key": "Option<PublicVerificationKey>",
-        "verification_keys_to_remove": "Option<BTreeSet<PublicVerificationKey>>",
-        "new_endpoint_url": "Option<Url>",
-        "tx_counter": "u64"
-    },
-    "DidDeletionOperation": {
-        "did": "DidIdentifier",
-        "tx_counter": "u64"
-    },
-    "DidDetails": {
-        "auth_key": "PublicVerificationKey",
-        "key_agreement_key": "PublicEncryptionKey",
-        "delegation_key": "Option<PublicVerificationKey>",
-        "attestation_key": "Option<PublicVerificationKey>",
-        "verification_keys": "BTreeSet<PublicVerificationKey>",
-        "endpoint_url": "Option<Url>",
-        "last_tx_counter": "u64"
-    },
-    "Attestation": {
-        "attester": "AccountId",
-        "ctypeHash": "Hash",
-        "delegationId": "Option<DelegationNodeId>",
-        "revoked": "bool"
-    },
-    "DelegationNode": {
-        "owner": "AccountId",
-        "parent": "Option<DelegationNodeId>",
-        "permissions": "Permissions",
-        "revoked": "bool",
-        "rootId": "DelegationNodeId"
-    },
-    "DelegationNodeId": "Hash",
-    "DelegationRoot": {
-        "ctypeHash": "Hash",
-        "owner": "AccountId",
-        "revoked": "bool"
-    },
-    "Permissions": "u32",
-    "PublicBoxKey": "Hash",
-    "PublicSigningKey": "Hash",
-    "BackingInfo": {
-        "candidancyTerm": "BlockNumber",
+    "LockedBalance": {
+        "block": "BlockNumber",
         "amount": "Balance"
+    },
+    "RoundIndex": "u32",
+    "RoundInfo": {
+        "current": "RoundIndex",
+        "first": "BlockNumber",
+        "length": "BlockNumber"
+    },
+    "OrderedSet": "Vec<Stake>",
+    "Stake": {
+        "owner": "AccountId",
+        "amount": "Balance"
+    },
+    "TotalStake": {
+        "collators": "Balance",
+        "delegators": "Balance"
+    },
+    "InflationInfo": {
+        "collator": "StakingInfo",
+        "delegator": "StakingInfo"
+    },
+    "StakingInfo": {
+        "maxRate": "Perquintill",
+        "rewardRate": "RewardRate"
+    },
+    "RewardRate": {
+        "annual": "Perquintill",
+        "perBlock": "Perquintill"
+    },
+    "Delegator": {
+        "delegations": "Vec<Stake>",
+        "total": "Balance"
+    },
+    "CollatorSnapshot": {
+        "stake": "Balance",
+        "delegators": "Vec<Stake>",
+        "total": "Balance"
+    },
+    "Collator": {
+        "id": "AccountId",
+        "stake": "Balance",
+        "delegators": "Vec<Stake>",
+        "total": "Balance",
+        "state": "CollatorStatus"
+    },
+    "CollatorStatus": {
+        "_enum": {
+            "Active": "Null",
+            "Idle": "Null",
+            "Leaving": "SessionIndex"
+        }
     }
 }
