@@ -14,6 +14,6 @@ docker compose down -v
 
 docker run $KILT_IMG export-genesis-state --chain=$KILT_RAW_SPEC_FILE --runtime=$KILT_RUNTIME > specs/kilt-genesis.hex
 docker run $KILT_IMG export-genesis-wasm --chain=$KILT_RAW_SPEC_FILE --runtime=$KILT_RUNTIME > specs/kilt.wasm
-docker run --entrypoint cat $KILT_IMG /node/dev-specs/kilt-parachain/peregrine-relay.json > specs/polkadot.raw.json
+docker run --entrypoint cat $KILT_IMG /node/dev-specs/kilt-parachain/westend-relay.json > specs/polkadot.raw.json
 
 docker compose up -d
