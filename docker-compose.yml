@@ -24,10 +24,10 @@ services:
       ]
     volumes:
       - ./specs:/data/spec/
-      - ./volume/relay-node-alice:/data/db/
+      - /data
     ports:
       - 9944:9944
-      - 30333:30333
+      # - 30333:30333
     expose:
       - 30333
 
@@ -54,10 +54,10 @@ services:
       ]
     volumes:
       - ./specs:/data/spec/
-      - ./volume/relay-node-bob:/data/db/
+      - /data
     ports:
       - 9945:9945
-      - 30334:30334
+      # - 30334:30334
     expose:
       - 30334
   
@@ -84,10 +84,10 @@ services:
       ]
     volumes:
       - ./specs:/data/spec/
-      - ./volume/relay-node-charlie:/data/db/
+      - /data
     ports:
       - 9946:9946
-      - 30335:30335
+      # - 30335:30335
     expose:
       - 30335
   
@@ -95,7 +95,7 @@ services:
     image: ${KILT_IMG}
     volumes:
       - ./specs:/data/spec/
-      - ./volume/kilt-collator-alice:/data/db/
+      - /data
     command:
       [
         "--no-mdns",
@@ -108,7 +108,7 @@ services:
         "--rpc-methods=unsafe",
         "--chain=${KILT_RAW_SPEC_FILE}",
         "--runtime=${KILT_RUNTIME}",
-        "--validator",
+        "--collator",
         "--alice",
         "--node-key-file=/data/spec/para-kilt/alice.key",
         "--bootnodes",
@@ -116,7 +116,7 @@ services:
         "/dns4/kilt-collator-bob/tcp/40334/p2p/12D3KooWMW6NQPgzHkroN6mtnGjfETVPw2G1NqkV5YW7VfzLxHCX",
         "--",
         "--port=30333",
-        "--chain=/node/dev-specs/kilt-parachain/peregrine-relay.json",
+        "--chain=/data/spec/${POLKADOT_RAW_SPEC_FILE}",
         "--execution=wasm",
         "--bootnodes",
         "/dns4/relay-node-alice/tcp/30333/p2p/12D3KooWPU8zhfbYjr6mGuDdrrkQMFfDm2edXFYkkkmyCBont8K5",
@@ -125,7 +125,7 @@ services:
       ]
     ports:
       - 9947:9947
-      - 40333:40333
+      # - 40333:40333
     expose:
       - 40333
       - 30333
@@ -138,7 +138,7 @@ services:
     image: ${KILT_IMG}
     volumes:
       - ./specs:/data/spec/
-      - ./volume/kilt-collator-bob:/data/db/
+      - /data
     command:
       [
         "--no-mdns",
@@ -151,7 +151,7 @@ services:
         "--rpc-methods=unsafe",
         "--chain=${KILT_RAW_SPEC_FILE}",
         "--runtime=${KILT_RUNTIME}",
-        "--validator",
+        "--collator",
         "--bob",
         "--node-key-file=/data/spec/para-kilt/bob.key",
         "--bootnodes",
@@ -159,7 +159,7 @@ services:
         "/dns4/kilt-collator-bob/tcp/40334/p2p/12D3KooWMW6NQPgzHkroN6mtnGjfETVPw2G1NqkV5YW7VfzLxHCX",
         "--",
         "--port=30333",
-        "--chain=/node/dev-specs/kilt-parachain/peregrine-relay.json",
+        "--chain=/data/spec/${POLKADOT_RAW_SPEC_FILE}",
         "--execution=wasm",
         "--bootnodes",
         "/dns4/relay-node-alice/tcp/30333/p2p/12D3KooWPU8zhfbYjr6mGuDdrrkQMFfDm2edXFYkkkmyCBont8K5",
@@ -168,7 +168,7 @@ services:
       ]
     ports:
       - 9948:9948
-      - 40334:40334
+      # - 40334:40334
     expose:
       - 40334
       - 30333
