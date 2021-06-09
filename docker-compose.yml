@@ -24,7 +24,7 @@ services:
       ]
     volumes:
       - ./specs:/data/spec/
-      - ./volume/relay-node-alice:/data/db/
+      - /data
     ports:
       - 9944:9944
       # - 30333:30333
@@ -54,7 +54,7 @@ services:
       ]
     volumes:
       - ./specs:/data/spec/
-      - ./volume/relay-node-bob:/data/db/
+      - /data
     ports:
       - 9945:9945
       # - 30334:30334
@@ -84,7 +84,7 @@ services:
       ]
     volumes:
       - ./specs:/data/spec/
-      - ./volume/relay-node-charlie:/data/db/
+      - /data
     ports:
       - 9946:9946
       # - 30335:30335
@@ -95,7 +95,7 @@ services:
     image: ${KILT_IMG}
     volumes:
       - ./specs:/data/spec/
-      - ./volume/kilt-collator-alice:/data/db/
+      - /data
     command:
       [
         "--no-mdns",
@@ -138,7 +138,7 @@ services:
     image: ${KILT_IMG}
     volumes:
       - ./specs:/data/spec/
-      - ./volume/kilt-collator-bob:/data/db/
+      - /data
     command:
       [
         "--no-mdns",
