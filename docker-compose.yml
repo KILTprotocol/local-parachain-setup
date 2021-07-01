@@ -187,6 +187,7 @@ services:
     command:
       [
         "--no-mdns",
+        "--name=collator-03",
         "--port=40334",
         "--ws-port=9949",
         "--ws-external",
@@ -198,8 +199,6 @@ services:
         "--runtime=${KILT_RUNTIME}",
         "--execution=wasm",
         "--collator",
-        "--bob",
-        "--node-key-file=/data/spec/para-kilt/bob.key",
         "--bootnodes",
         "/dns4/kilt-collator-alice/tcp/40333/p2p/12D3KooWPn1AKtsLYy6EYtXBgb6fQNw4MkLeBsyvPRV5DxAhvQ8M",
         "/dns4/kilt-collator-bob/tcp/40334/p2p/12D3KooWMW6NQPgzHkroN6mtnGjfETVPw2G1NqkV5YW7VfzLxHCX",
@@ -231,6 +230,7 @@ services:
     command:
       [
         "--no-mdns",
+        "--name=collator-04",
         "--port=40334",
         "--ws-port=9950",
         "--ws-external",
@@ -242,8 +242,6 @@ services:
         "--runtime=${KILT_RUNTIME}",
         "--execution=wasm",
         "--collator",
-        "--bob",
-        "--node-key-file=/data/spec/para-kilt/bob.key",
         "--bootnodes",
         "/dns4/kilt-collator-alice/tcp/40333/p2p/12D3KooWPn1AKtsLYy6EYtXBgb6fQNw4MkLeBsyvPRV5DxAhvQ8M",
         "/dns4/kilt-collator-bob/tcp/40334/p2p/12D3KooWMW6NQPgzHkroN6mtnGjfETVPw2G1NqkV5YW7VfzLxHCX",
@@ -275,6 +273,7 @@ services:
     command:
       [
         "--no-mdns",
+        "--name=collator-05",
         "--port=40334",
         "--ws-port=9951",
         "--ws-external",
@@ -286,8 +285,6 @@ services:
         "--runtime=${KILT_RUNTIME}",
         "--execution=wasm",
         "--collator",
-        "--bob",
-        "--node-key-file=/data/spec/para-kilt/bob.key",
         "--bootnodes",
         "/dns4/kilt-collator-alice/tcp/40333/p2p/12D3KooWPn1AKtsLYy6EYtXBgb6fQNw4MkLeBsyvPRV5DxAhvQ8M",
         "/dns4/kilt-collator-bob/tcp/40334/p2p/12D3KooWMW6NQPgzHkroN6mtnGjfETVPw2G1NqkV5YW7VfzLxHCX",
