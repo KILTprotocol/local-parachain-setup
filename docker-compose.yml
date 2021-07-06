@@ -307,3 +307,46 @@ services:
       - relay-node-alice
       - relay-node-bob
       - relay-node-charlie
+
+  kilt-collator-06:
+    image: ${KILT_IMG}
+    volumes:
+      - ./specs:/data/spec/
+      - /data
+    command:
+      [
+        "--no-mdns",
+        "--name=collator-06",
+        "--port=40334",
+        "--ws-port=9952",
+        "--ws-external",
+        "--rpc-external",
+        "--rpc-cors=all",
+        "--unsafe-rpc-external",
+        "--rpc-methods=unsafe",
+        "--chain=${KILT_RAW_SPEC_FILE}",
+        "--runtime=${KILT_RUNTIME}",
+        "--execution=wasm",
+        "--collator",
+        "--bootnodes",
+        "/dns4/kilt-collator-alice/tcp/40333/p2p/12D3KooWPn1AKtsLYy6EYtXBgb6fQNw4MkLeBsyvPRV5DxAhvQ8M",
+        "/dns4/kilt-collator-bob/tcp/40334/p2p/12D3KooWMW6NQPgzHkroN6mtnGjfETVPw2G1NqkV5YW7VfzLxHCX",
+        "--",
+        "--port=30333",
+        "--chain=/data/spec/${POLKADOT_RAW_SPEC_FILE}",
+        "--execution=wasm",
+        "--bootnodes",
+        "/dns4/relay-node-alice/tcp/30333/p2p/12D3KooWPU8zhfbYjr6mGuDdrrkQMFfDm2edXFYkkkmyCBont8K5",
+        "/dns4/relay-node-bob/tcp/30334/p2p/12D3KooWGFFpuUgFSFwNVLeVhNJ6m25jgv15pK8xcbdqaAj9gfnc",
+        "/dns4/relay-node-charlie/tcp/30335/p2p/12D3KooWPaFM8dPrm5GodDmggNPNLrKLUzDnLYuEStVZ7sesjrrW",
+      ]
+    ports:
+      - 9952:9952
+      # - 40334:40334
+    expose:
+      - 40334
+      - 30333
+    depends_on:
+      - relay-node-alice
+      - relay-node-bob
+      - relay-node-charlie
