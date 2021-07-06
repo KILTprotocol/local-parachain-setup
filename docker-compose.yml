@@ -5,10 +5,11 @@ services:
     image: ${POLKADOT_IMG}
     command:
       [
+        "--prometheus-external",
         "--port=30333",
         "--no-mdns",
         "--chain=/data/spec/${POLKADOT_RAW_SPEC_FILE}",
-        "--ws-port=9944",
+        "--ws-port=39944",
         "--ws-external",
         "--rpc-external",
         "--unsafe-rpc-external",
@@ -21,24 +22,26 @@ services:
         "/dns4/relay-node-alice/tcp/30333/p2p/12D3KooWPU8zhfbYjr6mGuDdrrkQMFfDm2edXFYkkkmyCBont8K5",
         "/dns4/relay-node-bob/tcp/30334/p2p/12D3KooWGFFpuUgFSFwNVLeVhNJ6m25jgv15pK8xcbdqaAj9gfnc",
         "/dns4/relay-node-charlie/tcp/30335/p2p/12D3KooWPaFM8dPrm5GodDmggNPNLrKLUzDnLYuEStVZ7sesjrrW",
+        "--no-beefy",
       ]
     volumes:
       - ./specs:/data/spec/
       - /data
     ports:
-      - 9944:9944
-      # - 30333:30333
+      - 39944:39944
     expose:
       - 30333
+      - 9615
 
   relay-node-bob:
     image: ${POLKADOT_IMG}
     command:
       [
+        "--prometheus-external",
         "--port=30334",
         "--no-mdns",
         "--chain=/data/spec/${POLKADOT_RAW_SPEC_FILE}",
-        "--ws-port=9945",
+        "--ws-port=39945",
         "--ws-external",
         "--rpc-external",
         "--rpc-cors=all",
@@ -51,24 +54,26 @@ services:
         "/dns4/relay-node-alice/tcp/30333/p2p/12D3KooWPU8zhfbYjr6mGuDdrrkQMFfDm2edXFYkkkmyCBont8K5",
         "/dns4/relay-node-bob/tcp/30334/p2p/12D3KooWGFFpuUgFSFwNVLeVhNJ6m25jgv15pK8xcbdqaAj9gfnc",
         "/dns4/relay-node-charlie/tcp/30335/p2p/12D3KooWPaFM8dPrm5GodDmggNPNLrKLUzDnLYuEStVZ7sesjrrW",
+        "--no-beefy",
       ]
     volumes:
       - ./specs:/data/spec/
       - /data
     ports:
-      - 9945:9945
-      # - 30334:30334
+      - 39945:39945
     expose:
       - 30334
+      - 9615
   
   relay-node-charlie:
     image: ${POLKADOT_IMG}
     command:
       [
+        "--prometheus-external",
         "--port=30335",
         "--no-mdns",
         "--chain=/data/spec/${POLKADOT_RAW_SPEC_FILE}",
-        "--ws-port=9946",
+        "--ws-port=39946",
         "--ws-external",
         "--rpc-external",
         "--rpc-cors=all",
@@ -81,15 +86,16 @@ services:
         "/dns4/relay-node-alice/tcp/30333/p2p/12D3KooWPU8zhfbYjr6mGuDdrrkQMFfDm2edXFYkkkmyCBont8K5",
         "/dns4/relay-node-bob/tcp/30334/p2p/12D3KooWGFFpuUgFSFwNVLeVhNJ6m25jgv15pK8xcbdqaAj9gfnc",
         "/dns4/relay-node-charlie/tcp/30335/p2p/12D3KooWPaFM8dPrm5GodDmggNPNLrKLUzDnLYuEStVZ7sesjrrW",
+        "--no-beefy",
       ]
     volumes:
       - ./specs:/data/spec/
       - /data
     ports:
-      - 9946:9946
-      # - 30335:30335
+      - 39946:39946
     expose:
       - 30335
+      - 9615
   
   kilt-collator-alice:
     image: ${KILT_IMG}
@@ -98,9 +104,10 @@ services:
       - /data
     command:
       [
+        "--prometheus-external",
         "--no-mdns",
         "--port=40333",
-        "--ws-port=9947",
+        "--ws-port=39947",
         "--ws-external",
         "--rpc-external",
         "--rpc-cors=all",
@@ -123,17 +130,20 @@ services:
         "/dns4/relay-node-alice/tcp/30333/p2p/12D3KooWPU8zhfbYjr6mGuDdrrkQMFfDm2edXFYkkkmyCBont8K5",
         "/dns4/relay-node-bob/tcp/30334/p2p/12D3KooWGFFpuUgFSFwNVLeVhNJ6m25jgv15pK8xcbdqaAj9gfnc",
         "/dns4/relay-node-charlie/tcp/30335/p2p/12D3KooWPaFM8dPrm5GodDmggNPNLrKLUzDnLYuEStVZ7sesjrrW",
+        "--no-beefy",
       ]
     ports:
-      - 9947:9947
-      # - 40333:40333
+      - 39947:39947
     expose:
       - 40333
       - 30333
+      - 9615
     depends_on:
       - relay-node-alice
       - relay-node-bob
       - relay-node-charlie
+      - prometheus
+      - grafana
 
   kilt-collator-bob:
     image: ${KILT_IMG}
@@ -142,9 +152,10 @@ services:
       - /data
     command:
       [
+        "--prometheus-external",
         "--no-mdns",
         "--port=40334",
-        "--ws-port=9948",
+        "--ws-port=39948",
         "--ws-external",
         "--rpc-external",
         "--rpc-cors=all",
@@ -167,14 +178,34 @@ services:
         "/dns4/relay-node-alice/tcp/30333/p2p/12D3KooWPU8zhfbYjr6mGuDdrrkQMFfDm2edXFYkkkmyCBont8K5",
         "/dns4/relay-node-bob/tcp/30334/p2p/12D3KooWGFFpuUgFSFwNVLeVhNJ6m25jgv15pK8xcbdqaAj9gfnc",
         "/dns4/relay-node-charlie/tcp/30335/p2p/12D3KooWPaFM8dPrm5GodDmggNPNLrKLUzDnLYuEStVZ7sesjrrW",
+        "--no-beefy",
       ]
     ports:
-      - 9948:9948
-      # - 40334:40334
+      - 39948:39948
     expose:
       - 40334
       - 30333
+      - 9615
     depends_on:
       - relay-node-alice
       - relay-node-bob
       - relay-node-charlie
+      - prometheus
+      - grafana
+
+  prometheus:
+    image: prom/prometheus:v2.28.0
+    user: "${USER_ID}"
+    volumes:
+        - ./monitoring/prometheus.yml:/etc/prometheus/prometheus.yml
+        - ./volume/prometheus:/prometheus
+    extra_hosts:
+        - "host.docker.internal:host-gateway"
+
+  grafana:
+    image: grafana/grafana:8.0.3
+    user: "${USER_ID}"
+    volumes:
+        - ./volume/grafana-lib/:/var/lib/grafana
+    ports:
+      - 33000:3000

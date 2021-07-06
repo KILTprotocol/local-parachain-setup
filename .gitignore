@@ -1,3 +1,5 @@
 specs/kilt-genesis.hex
 specs/kilt.wasm
 specs/polkadot.raw.json
+volume/grafana-lib/*
+volume/prometheus/*
