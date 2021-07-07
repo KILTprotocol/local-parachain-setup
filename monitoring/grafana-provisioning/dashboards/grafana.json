@@ -273,7 +273,7 @@
               "axisLabel": "",
               "axisPlacement": "auto",
               "barAlignment": 0,
-              "drawStyle": "bars",
+              "drawStyle": "line",
               "fillOpacity": 10,
               "gradientMode": "none",
               "hideFrom": {
@@ -281,7 +281,7 @@
                 "tooltip": false,
                 "viz": false
               },
-              "lineInterpolation": "linear",
+              "lineInterpolation": "smooth",
               "lineWidth": 1,
               "pointSize": 5,
               "scaleDistribution": {
@@ -677,5 +677,5 @@
     },
     "timepicker": {},
     "timezone": "",
-    "title": "Local",
+    "title": "Local"
   }

@@ -207,5 +207,6 @@ services:
     user: "${USER_ID}"
     volumes:
         - ./volume/grafana-lib/:/var/lib/grafana
+        - ./monitoring/grafana-provisioning:/etc/grafana/provisioning/
     ports:
       - 33000:3000
