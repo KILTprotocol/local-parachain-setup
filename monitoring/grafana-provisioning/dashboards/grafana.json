@@ -15,7 +15,6 @@
     "editable": true,
     "gnetId": null,
     "graphTooltip": 1,
-    "id": 1,
     "links": [],
     "panels": [
       {
@@ -350,92 +349,6 @@
         "type": "timeseries"
       },
       {
-        "datasource": null,
-        "fieldConfig": {
-          "defaults": {
-            "color": {
-              "mode": "palette-classic"
-            },
-            "custom": {
-              "axisLabel": "",
-              "axisPlacement": "auto",
-              "barAlignment": 0,
-              "drawStyle": "line",
-              "fillOpacity": 10,
-              "gradientMode": "none",
-              "hideFrom": {
-                "legend": false,
-                "tooltip": false,
-                "viz": false
-              },
-              "lineInterpolation": "linear",
-              "lineWidth": 1,
-              "pointSize": 5,
-              "scaleDistribution": {
-                "type": "linear"
-              },
-              "showPoints": "never",
-              "spanNulls": true,
-              "stacking": {
-                "group": "A",
-                "mode": "none"
-              },
-              "thresholdsStyle": {
-                "mode": "off"
-              }
-            },
-            "mappings": [],
-            "thresholds": {
-              "mode": "absolute",
-              "steps": [
-                {
-                  "color": "green",
-                  "value": null
-                },
-                {
-                  "color": "red",
-                  "value": 80
-                }
-              ]
-            },
-            "unit": "short"
-          },
-          "overrides": []
-        },
-        "gridPos": {
-          "h": 9,
-          "w": 8,
-          "x": 0,
-          "y": 15
-        },
-        "id": 28,
-        "options": {
-          "legend": {
-            "calcs": [],
-            "displayMode": "list",
-            "placement": "bottom"
-          },
-          "tooltip": {
-            "mode": "single"
-          }
-        },
-        "pluginVersion": "8.0.2",
-        "targets": [
-          {
-            "exemplar": true,
-            "expr": "substrate_storage_notification_subscribers{action=\"added\"} - ignoring(action) substrate_storage_notification_subscribers{action=\"removed\"}",
-            "interval": "",
-            "legendFormat": "{{app}}",
-            "queryType": "randomWalk",
-            "refId": "A"
-          }
-        ],
-        "timeFrom": null,
-        "timeShift": null,
-        "title": "Storage Subscriber",
-        "type": "timeseries"
-      },
-      {
         "alert": {
           "alertRuleTags": {},
           "conditions": [
@@ -481,7 +394,7 @@
         "gridPos": {
           "h": 9,
           "w": 8,
-          "x": 8,
+          "x": 0,
           "y": 15
         },
         "hiddenSeries": false,
@@ -608,6 +521,92 @@
                 "mode": "off"
               }
             },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            },
+            "unit": "short"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 9,
+          "w": 8,
+          "x": 8,
+          "y": 15
+        },
+        "id": 28,
+        "options": {
+          "legend": {
+            "calcs": [],
+            "displayMode": "list",
+            "placement": "bottom"
+          },
+          "tooltip": {
+            "mode": "single"
+          }
+        },
+        "pluginVersion": "8.0.2",
+        "targets": [
+          {
+            "exemplar": true,
+            "expr": "substrate_storage_notification_subscribers{action=\"added\"} - ignoring(action) substrate_storage_notification_subscribers{action=\"removed\"}",
+            "interval": "",
+            "legendFormat": "{{app}}",
+            "queryType": "randomWalk",
+            "refId": "A"
+          }
+        ],
+        "timeFrom": null,
+        "timeShift": null,
+        "title": "Storage Subscriber",
+        "type": "timeseries"
+      },
+      {
+        "datasource": null,
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "palette-classic"
+            },
+            "custom": {
+              "axisLabel": "",
+              "axisPlacement": "auto",
+              "barAlignment": 0,
+              "drawStyle": "line",
+              "fillOpacity": 10,
+              "gradientMode": "none",
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "viz": false
+              },
+              "lineInterpolation": "linear",
+              "lineWidth": 1,
+              "pointSize": 5,
+              "scaleDistribution": {
+                "type": "linear"
+              },
+              "showPoints": "never",
+              "spanNulls": true,
+              "stacking": {
+                "group": "A",
+                "mode": "none"
+              },
+              "thresholdsStyle": {
+                "mode": "off"
+              }
+            },
             "decimals": 0,
             "mappings": [],
             "min": 0,
@@ -662,6 +661,92 @@
         "timeShift": null,
         "title": "Peer Count",
         "type": "timeseries"
+      },
+      {
+        "datasource": null,
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "palette-classic"
+            },
+            "custom": {
+              "axisLabel": "",
+              "axisPlacement": "auto",
+              "barAlignment": 0,
+              "drawStyle": "line",
+              "fillOpacity": 10,
+              "gradientMode": "none",
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "viz": false
+              },
+              "lineInterpolation": "linear",
+              "lineWidth": 1,
+              "pointSize": 5,
+              "scaleDistribution": {
+                "type": "linear"
+              },
+              "showPoints": "never",
+              "spanNulls": true,
+              "stacking": {
+                "group": "A",
+                "mode": "none"
+              },
+              "thresholdsStyle": {
+                "mode": "off"
+              }
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            },
+            "unit": "short"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 9,
+          "w": 8,
+          "x": 0,
+          "y": 24
+        },
+        "id": 35,
+        "options": {
+          "legend": {
+            "calcs": [],
+            "displayMode": "list",
+            "placement": "bottom"
+          },
+          "tooltip": {
+            "mode": "single"
+          }
+        },
+        "pluginVersion": "8.0.2",
+        "targets": [
+          {
+            "exemplar": true,
+            "expr": "substrate_proposer_number_of_transactions",
+            "interval": "",
+            "legendFormat": "{{app}}",
+            "queryType": "randomWalk",
+            "refId": "A"
+          }
+        ],
+        "timeFrom": null,
+        "timeShift": null,
+        "title": "# Tx per block",
+        "type": "timeseries"
       }
     ],
     "refresh": "10s",
@@ -677,5 +762,7 @@
     },
     "timepicker": {},
     "timezone": "",
-    "title": "Local"
-  }
+    "title": "Local",
+    "uid": "hq7wSZinz",
+    "version": 4
+}
