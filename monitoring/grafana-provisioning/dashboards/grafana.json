@@ -338,7 +338,7 @@
             "exemplar": true,
             "expr": "delta(substrate_block_height{status=\"finalized\"}[1m])",
             "interval": "",
-            "legendFormat": "{{app}}",
+            "legendFormat": "{{instance}}",
             "queryType": "randomWalk",
             "refId": "A"
           }
@@ -428,7 +428,7 @@
             "exemplar": true,
             "expr": "substrate_ready_transactions_number",
             "interval": "",
-            "legendFormat": "{{app}}",
+            "legendFormat": "{{instance}}",
             "queryType": "randomWalk",
             "refId": "A"
           }
@@ -562,7 +562,7 @@
             "exemplar": true,
             "expr": "substrate_storage_notification_subscribers{action=\"added\"} - ignoring(action) substrate_storage_notification_subscribers{action=\"removed\"}",
             "interval": "",
-            "legendFormat": "{{app}}",
+            "legendFormat": "{{instance}}",
             "queryType": "randomWalk",
             "refId": "A"
           }
@@ -738,7 +738,7 @@
             "exemplar": true,
             "expr": "substrate_proposer_number_of_transactions",
             "interval": "",
-            "legendFormat": "{{app}}",
+            "legendFormat": "{{instance}}",
             "queryType": "randomWalk",
             "refId": "A"
           }
