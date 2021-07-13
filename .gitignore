@@ -1,3 +1,6 @@
 specs/kilt-genesis.hex
-specs/kilt.wasm
-specs/polkadot.raw.json
+specs/*.json
+specs/*.wasm
+specs/*.hex
+state/
+volume/
