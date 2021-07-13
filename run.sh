@@ -9,6 +9,8 @@ set +o allexport
 
 # PROJECT_NAME = <user_id>-<current_directory_name>
 PROJECT_NAME=$USER-${PWD##*/}
+export CURRENT_UID=$(id -u):$(id -g)
+# CURRENT_UID=1007:1008
 
 # TEARDOWN AND DELETE
 docker compose -p $PROJECT_NAME down -v

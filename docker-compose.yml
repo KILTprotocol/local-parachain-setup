@@ -2,12 +2,13 @@ version: "3"
 
 services:
   relay-node-alice:
+  #  user: ${CURRENT_UID}
     image: ${POLKADOT_IMG}
     command:
       [
         "--port=30333",
         "--no-mdns",
-        "--chain=/data/spec/${POLKADOT_RAW_SPEC_FILE}",
+        "--chain=/spec/${POLKADOT_RAW_SPEC_FILE}",
         "--ws-port=9944",
         "--ws-external",
         "--rpc-external",
@@ -16,15 +17,16 @@ services:
         "--rpc-cors=all",
         "--validator",
         "--alice",
-        "--node-key-file=/data/spec/relay/alice.key",
+        "--node-key-file=/spec/relay/alice.key",
         "--bootnodes",
         "/dns4/relay-node-alice/tcp/30333/p2p/12D3KooWPU8zhfbYjr6mGuDdrrkQMFfDm2edXFYkkkmyCBont8K5",
         "/dns4/relay-node-bob/tcp/30334/p2p/12D3KooWGFFpuUgFSFwNVLeVhNJ6m25jgv15pK8xcbdqaAj9gfnc",
         "/dns4/relay-node-charlie/tcp/30335/p2p/12D3KooWPaFM8dPrm5GodDmggNPNLrKLUzDnLYuEStVZ7sesjrrW",
       ]
     volumes:
-      - ./specs:/data/spec/
+      - ./specs:/spec
       - /data
+      # - ./data/relay-alice:/data
     ports:
       - 9944:9944
       # - 30333:30333
@@ -32,12 +34,13 @@ services:
       - 30333
 
   relay-node-bob:
+  #  user: ${CURRENT_UID}
     image: ${POLKADOT_IMG}
     command:
       [
         "--port=30334",
         "--no-mdns",
-        "--chain=/data/spec/${POLKADOT_RAW_SPEC_FILE}",
+        "--chain=/spec/${POLKADOT_RAW_SPEC_FILE}",
         "--ws-port=9945",
         "--ws-external",
         "--rpc-external",
@@ -45,7 +48,7 @@ services:
         "--unsafe-rpc-external",
         "--rpc-methods=unsafe",
         "--validator",
-        "--node-key-file=/data/spec/relay/bob.key",
+        "--node-key-file=/spec/relay/bob.key",
         "--bob",
         "--bootnodes",
         "/dns4/relay-node-alice/tcp/30333/p2p/12D3KooWPU8zhfbYjr6mGuDdrrkQMFfDm2edXFYkkkmyCBont8K5",
@@ -53,8 +56,9 @@ services:
         "/dns4/relay-node-charlie/tcp/30335/p2p/12D3KooWPaFM8dPrm5GodDmggNPNLrKLUzDnLYuEStVZ7sesjrrW",
       ]
     volumes:
-      - ./specs:/data/spec/
+      - ./specs:/spec
       - /data
+      # - ./data/relay-bob:/data
     ports:
       - 9945:9945
       # - 30334:30334
@@ -62,12 +66,13 @@ services:
       - 30334
   
   relay-node-charlie:
+  #  user: ${CURRENT_UID}
     image: ${POLKADOT_IMG}
     command:
       [
         "--port=30335",
         "--no-mdns",
-        "--chain=/data/spec/${POLKADOT_RAW_SPEC_FILE}",
+        "--chain=/spec/${POLKADOT_RAW_SPEC_FILE}",
         "--ws-port=9946",
         "--ws-external",
         "--rpc-external",
@@ -75,7 +80,7 @@ services:
         "--unsafe-rpc-external",
         "--rpc-methods=unsafe",
         "--validator",
-        "--node-key-file=/data/spec/relay/charlie.key",
+        "--node-key-file=/spec/relay/charlie.key",
         "--charlie",
         "--bootnodes",
         "/dns4/relay-node-alice/tcp/30333/p2p/12D3KooWPU8zhfbYjr6mGuDdrrkQMFfDm2edXFYkkkmyCBont8K5",
@@ -83,8 +88,9 @@ services:
         "/dns4/relay-node-charlie/tcp/30335/p2p/12D3KooWPaFM8dPrm5GodDmggNPNLrKLUzDnLYuEStVZ7sesjrrW",
       ]
     volumes:
-      - ./specs:/data/spec/
+      - ./specs:/spec
       - /data
+      # - ./data/relay-charlie:/data
     ports:
       - 9946:9946
       # - 30335:30335
@@ -92,10 +98,12 @@ services:
       - 30335
   
   kilt-collator-alice:
+  #  user: ${CURRENT_UID}
     image: ${KILT_IMG}
     volumes:
-      - ./specs:/data/spec/
+      - ./specs:/spec
       - /data
+      # - ./data/collator-alice:/data
     command:
       [
         "--no-mdns",
@@ -111,13 +119,13 @@ services:
         "--execution=wasm",
         "--collator",
         "--alice",
-        "--node-key-file=/data/spec/para-kilt/alice.key",
+        "--node-key-file=/spec/para-kilt/alice.key",
         "--bootnodes",
         "/dns4/kilt-collator-alice/tcp/40333/p2p/12D3KooWPn1AKtsLYy6EYtXBgb6fQNw4MkLeBsyvPRV5DxAhvQ8M",
         "/dns4/kilt-collator-bob/tcp/40334/p2p/12D3KooWMW6NQPgzHkroN6mtnGjfETVPw2G1NqkV5YW7VfzLxHCX",
         "--",
         "--port=30333",
-        "--chain=/data/spec/${POLKADOT_RAW_SPEC_FILE}",
+        "--chain=/spec/${POLKADOT_RAW_SPEC_FILE}",
         "--execution=wasm",
         "--bootnodes",
         "/dns4/relay-node-alice/tcp/30333/p2p/12D3KooWPU8zhfbYjr6mGuDdrrkQMFfDm2edXFYkkkmyCBont8K5",
@@ -136,10 +144,12 @@ services:
       - relay-node-charlie
 
   kilt-collator-bob:
+  #  user: ${CURRENT_UID}
     image: ${KILT_IMG}
     volumes:
-      - ./specs:/data/spec/
+      - ./specs:/spec
       - /data
+      # - ./data/collator-bob:/data
     command:
       [
         "--no-mdns",
@@ -155,13 +165,13 @@ services:
         "--execution=wasm",
         "--collator",
         "--bob",
-        "--node-key-file=/data/spec/para-kilt/bob.key",
+        "--node-key-file=/spec/para-kilt/bob.key",
         "--bootnodes",
         "/dns4/kilt-collator-alice/tcp/40333/p2p/12D3KooWPn1AKtsLYy6EYtXBgb6fQNw4MkLeBsyvPRV5DxAhvQ8M",
         "/dns4/kilt-collator-bob/tcp/40334/p2p/12D3KooWMW6NQPgzHkroN6mtnGjfETVPw2G1NqkV5YW7VfzLxHCX",
         "--",
         "--port=30333",
-        "--chain=/data/spec/${POLKADOT_RAW_SPEC_FILE}",
+        "--chain=/spec/${POLKADOT_RAW_SPEC_FILE}",
         "--execution=wasm",
         "--bootnodes",
         "/dns4/relay-node-alice/tcp/30333/p2p/12D3KooWPU8zhfbYjr6mGuDdrrkQMFfDm2edXFYkkkmyCBont8K5",
@@ -180,10 +190,12 @@ services:
       - relay-node-charlie
 
   kilt-collator-03:
+  #  user: ${CURRENT_UID}
     image: ${KILT_IMG}
     volumes:
-      - ./specs:/data/spec/
+      - ./specs:/spec
       - /data
+      # - ./data/collator-03:/data
     command:
       [
         "--no-mdns",
@@ -204,7 +216,7 @@ services:
         "/dns4/kilt-collator-bob/tcp/40334/p2p/12D3KooWMW6NQPgzHkroN6mtnGjfETVPw2G1NqkV5YW7VfzLxHCX",
         "--",
         "--port=30333",
-        "--chain=/data/spec/${POLKADOT_RAW_SPEC_FILE}",
+        "--chain=/spec/${POLKADOT_RAW_SPEC_FILE}",
         "--execution=wasm",
         "--bootnodes",
         "/dns4/relay-node-alice/tcp/30333/p2p/12D3KooWPU8zhfbYjr6mGuDdrrkQMFfDm2edXFYkkkmyCBont8K5",
@@ -223,10 +235,12 @@ services:
       - relay-node-charlie
 
   kilt-collator-04:
+  #  user: ${CURRENT_UID}
     image: ${KILT_IMG}
     volumes:
-      - ./specs:/data/spec/
+      - ./specs:/spec
       - /data
+      # - ./data/collator-04:/data
     command:
       [
         "--no-mdns",
@@ -247,7 +261,7 @@ services:
         "/dns4/kilt-collator-bob/tcp/40334/p2p/12D3KooWMW6NQPgzHkroN6mtnGjfETVPw2G1NqkV5YW7VfzLxHCX",
         "--",
         "--port=30333",
-        "--chain=/data/spec/${POLKADOT_RAW_SPEC_FILE}",
+        "--chain=/spec/${POLKADOT_RAW_SPEC_FILE}",
         "--execution=wasm",
         "--bootnodes",
         "/dns4/relay-node-alice/tcp/30333/p2p/12D3KooWPU8zhfbYjr6mGuDdrrkQMFfDm2edXFYkkkmyCBont8K5",
@@ -266,10 +280,12 @@ services:
       - relay-node-charlie
 
   kilt-collator-05:
+  #  user: ${CURRENT_UID}
     image: ${KILT_IMG}
     volumes:
-      - ./specs:/data/spec/
+      - ./specs:/spec
       - /data
+      # - ./data/collator-05:/data
     command:
       [
         "--no-mdns",
@@ -290,7 +306,7 @@ services:
         "/dns4/kilt-collator-bob/tcp/40334/p2p/12D3KooWMW6NQPgzHkroN6mtnGjfETVPw2G1NqkV5YW7VfzLxHCX",
         "--",
         "--port=30333",
-        "--chain=/data/spec/${POLKADOT_RAW_SPEC_FILE}",
+        "--chain=/spec/${POLKADOT_RAW_SPEC_FILE}",
         "--execution=wasm",
         "--bootnodes",
         "/dns4/relay-node-alice/tcp/30333/p2p/12D3KooWPU8zhfbYjr6mGuDdrrkQMFfDm2edXFYkkkmyCBont8K5",
@@ -309,10 +325,12 @@ services:
       - relay-node-charlie
 
   kilt-collator-06:
+  #  user: ${CURRENT_UID}
     image: ${KILT_IMG}
     volumes:
-      - ./specs:/data/spec/
+      - ./specs:/spec
       - /data
+      # - ./data/collator-06:/data
     command:
       [
         "--no-mdns",
@@ -333,7 +351,7 @@ services:
         "/dns4/kilt-collator-bob/tcp/40334/p2p/12D3KooWMW6NQPgzHkroN6mtnGjfETVPw2G1NqkV5YW7VfzLxHCX",
         "--",
         "--port=30333",
-        "--chain=/data/spec/${POLKADOT_RAW_SPEC_FILE}",
+        "--chain=/spec/${POLKADOT_RAW_SPEC_FILE}",
         "--execution=wasm",
         "--bootnodes",
         "/dns4/relay-node-alice/tcp/30333/p2p/12D3KooWPU8zhfbYjr6mGuDdrrkQMFfDm2edXFYkkkmyCBont8K5",
