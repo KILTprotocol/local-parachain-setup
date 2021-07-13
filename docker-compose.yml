@@ -9,7 +9,7 @@ services:
         "--port=30333",
         "--no-mdns",
         "--chain=/data/spec/${POLKADOT_RAW_SPEC_FILE}",
-        "--ws-port=39944",
+        "--ws-port=9944",
         "--ws-external",
         "--rpc-external",
         "--unsafe-rpc-external",
@@ -28,7 +28,7 @@ services:
       - ./specs:/data/spec/
       - ./volume/relay-alice:/data/state
     ports:
-      - 39944:39944
+      - 9944:9944
       # - 30333:30333
     expose:
       - 30333
@@ -41,7 +41,7 @@ services:
         "--port=30334",
         "--no-mdns",
         "--chain=/data/spec/${POLKADOT_RAW_SPEC_FILE}",
-        "--ws-port=39945",
+        "--ws-port=9945",
         "--ws-external",
         "--rpc-external",
         "--rpc-cors=all",
@@ -60,7 +60,7 @@ services:
       - ./specs:/data/spec/
       - ./volume/relay-bob:/data/state
     ports:
-      - 39945:39945
+      - 9945:9945
       # - 30334:30334
     expose:
       - 30334
@@ -73,7 +73,7 @@ services:
         "--port=30335",
         "--no-mdns",
         "--chain=/data/spec/${POLKADOT_RAW_SPEC_FILE}",
-        "--ws-port=39946",
+        "--ws-port=9946",
         "--ws-external",
         "--rpc-external",
         "--rpc-cors=all",
@@ -92,7 +92,7 @@ services:
       - ./specs:/data/spec/
       - ./volume/relay-charlie:/data/state
     ports:
-      - 39946:39946
+      - 9946:9946
       # - 30335:30335
     expose:
       - 30335
@@ -104,7 +104,7 @@ services:
       [
         "--no-mdns",
         "--port=40333",
-        "--ws-port=39947",
+        "--ws-port=9947",
         "--ws-external",
         "--rpc-external",
         "--rpc-cors=all",
@@ -131,7 +131,7 @@ services:
         "-d=/data/state/relay",
       ]
     ports:
-      - 39947:39947
+      - 9947:9947
       # - 40333:40333
     expose:
       - 40333
@@ -151,7 +151,7 @@ services:
       [
         "--no-mdns",
         "--port=40334",
-        "--ws-port=39948",
+        "--ws-port=9948",
         "--ws-external",
         "--rpc-external",
         "--rpc-cors=all",
@@ -178,7 +178,7 @@ services:
         "-d=/data/state/relay",
       ]
     ports:
-      - 39948:39948
+      - 9948:9948
       # - 40334:40334
     expose:
       - 40334
