@@ -3,12 +3,12 @@ version: "3"
 services:
   relay-node-alice:
     user: "${USER_ID}"
-    image: ${POLKADOT_IMG}
+    image: ${RELAY_IMG}
     command:
       [
         "--port=30333",
         "--no-mdns",
-        "--chain=/data/spec/${POLKADOT_RAW_SPEC_FILE}",
+        "--chain=/data/spec/${RELAY_SPEC_LOCATION}",
         "--ws-port=39944",
         "--ws-external",
         "--rpc-external",
@@ -35,12 +35,12 @@ services:
 
   relay-node-bob:
     user: "${USER_ID}"
-    image: ${POLKADOT_IMG}
+    image: ${RELAY_IMG}
     command:
       [
         "--port=30334",
         "--no-mdns",
-        "--chain=/data/spec/${POLKADOT_RAW_SPEC_FILE}",
+        "--chain=/data/spec/${RELAY_SPEC_LOCATION}",
         "--ws-port=39945",
         "--ws-external",
         "--rpc-external",
@@ -67,12 +67,12 @@ services:
   
   relay-node-charlie:
     user: "${USER_ID}"
-    image: ${POLKADOT_IMG}
+    image: ${RELAY_IMG}
     command:
       [
         "--port=30335",
         "--no-mdns",
-        "--chain=/data/spec/${POLKADOT_RAW_SPEC_FILE}",
+        "--chain=/data/spec/${RELAY_SPEC_LOCATION}",
         "--ws-port=39946",
         "--ws-external",
         "--rpc-external",
@@ -122,7 +122,7 @@ services:
         "-d=/data/state/parachain",
         "--",
         "--port=30333",
-        "--chain=/data/spec/${POLKADOT_RAW_SPEC_FILE}",
+        "--chain=/data/spec/${RELAY_SPEC_LOCATION}",
         "--execution=wasm",
         "--bootnodes",
         "/dns4/relay-node-alice/tcp/30333/p2p/12D3KooWPU8zhfbYjr6mGuDdrrkQMFfDm2edXFYkkkmyCBont8K5",
@@ -169,7 +169,7 @@ services:
         "-d=/data/state/parachain",
         "--",
         "--port=30333",
-        "--chain=/data/spec/${POLKADOT_RAW_SPEC_FILE}",
+        "--chain=/data/spec/${RELAY_SPEC_LOCATION}",
         "--execution=wasm",
         "--bootnodes",
         "/dns4/relay-node-alice/tcp/30333/p2p/12D3KooWPU8zhfbYjr6mGuDdrrkQMFfDm2edXFYkkkmyCBont8K5",
