@@ -23,6 +23,6 @@ docker run --rm --entrypoint cat $KILT_IMG /node/dev-specs/kilt-parachain/peregr
 
 # Remove old data and create folders
 rm -rf ./volume/*
-mkdir -p ./volume/{relay-alice,relay-bob,relay-charlie,kilt-alice,kilt-bob}
+mkdir -p ./volume/{relay-alice,relay-bob,relay-charlie,kilt-alice,kilt-bob,kilt-03,kilt-04,kilt-05,kilt-06}
 
 docker compose -p $PROJECT_NAME up -d
