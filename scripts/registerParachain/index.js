@@ -4,9 +4,9 @@ const { cryptoWaitReady } = require('@polkadot/util-crypto');
 const { setMinParaUpgradeDelay, registerParachain, forceLease, speedUpParaOnboarding } = require('./extrinsics');
 const { readFileFromPath } = require('./readFile');
 
-const wasmPath = path.join(__dirname, './', 'kilt.wasm');
-const genesisPath = path.join(__dirname, './', 'kilt-genesis.hex');
-const relayProvider = process.env.RELAY_WS_ENDPOINT || 'ws://127.0.0.1:40044'
+const wasmPath = path.join('/wasm', 'kilt.wasm');
+const genesisPath = path.join('/wasm', 'kilt-genesis.hex');
+const relayProvider = process.env.RELAY_WS_ENDPOINT || 'ws://127.0.0.1:9944'
 const paraId = process.env.PARA_ID || 2000;
 const sudoHex = process.env.RELAY_SUDO;
 const forceLeaseData = {
