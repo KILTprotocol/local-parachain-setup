@@ -38,7 +38,7 @@ services:
         "--port=${PORT_RELAY_BOB_LIBP2P}",
         "--no-mdns",
         "--chain=/data/spec/${POLKADOT_RAW_SPEC_FILE}",
-        "--ws-port=${PORT_PARA_BOB_WS}",
+        "--ws-port=${PORT_RELAY_BOB_WS}",
         "--ws-external",
         "--rpc-external",
         "--rpc-cors=all",
@@ -56,7 +56,7 @@ services:
       - ./specs:/data/spec/
       - /data
     ports:
-      - ${PORT_PARA_BOB_WS}:${PORT_PARA_BOB_WS}
+      - ${PORT_RELAY_BOB_WS}:${PORT_RELAY_BOB_WS}
       # - ${PORT_RELAY_BOB_LIBP2P}:${PORT_RELAY_BOB_LIBP2P}
     expose:
       - ${PORT_RELAY_BOB_LIBP2P}
@@ -68,7 +68,7 @@ services:
         "--port=${PORT_RELAY_CHARLIE_LIBP2P}",
         "--no-mdns",
         "--chain=/data/spec/${POLKADOT_RAW_SPEC_FILE}",
-        "--ws-port=${PORT_PARA_CHARLIE_WS}",
+        "--ws-port=${PORT_RELAY_CHARLIE_WS}",
         "--ws-external",
         "--rpc-external",
         "--rpc-cors=all",
@@ -86,7 +86,7 @@ services:
       - ./specs:/data/spec/
       - /data
     ports:
-      - ${PORT_PARA_CHARLIE_WS}:${PORT_PARA_CHARLIE_WS}
+      - ${PORT_RELAY_CHARLIE_WS}:${PORT_RELAY_CHARLIE_WS}
       # - ${PORT_RELAY_CHARLIE_LIBP2P}:${PORT_RELAY_CHARLIE_LIBP2P}
     expose:
       - ${PORT_RELAY_CHARLIE_LIBP2P}
@@ -186,6 +186,8 @@ services:
       PARA_ID: ${PARA_ID}
       RELAY_SUDO: ${RELAY_SUDO_KEY}
     image: node-register-parachain
+    volumes:
+      - ./specs:/wasm
     command: sh -c "
       sleep 20 &&
       node index.js"
