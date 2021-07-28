@@ -8,12 +8,12 @@
    ```
    2. Select the [Polkadot image to run](https://hub.docker.com/r/parity/polkadot/tags?page=1&ordering=last_updated). Typically, this should be the latest image.
    3. If you have made adjustments to the parachain id, please change it. Typically, this should be `2000`. If you are unsure, go to step 2 and check the parachain id in the logs or the [Polkadot Apps](https://polkadot.js.org/apps/?rpc=ws%3A%2F%2F127.0.0.1%3A9944#/extrinsics) at _Developer > Chain State > parachainInfo::parachainId_. 
-2. Execute the `run.sh` script.
+2. Execute the [`run.sh`](./run.sh) script.
 * It uses the [docker compose CLI](https://docs.docker.com/compose/cli-command/) aka `docker compose` not `docker-compose`.
 * The genesis state and WASM are updated after running `run.sh` and can be found in [specs/kilt.wasm](specs/kilt.wasm) or [specs/kilt-genesis.hex](/specs/kilt-genesis.hex).
 * It will set up 3 relay chain validator and 2 parachain collators nodes, register the parachain as a parathread, upgrade it to a parachain and increase its parachain duration (leases) to more than a year.
 
-Once you are done, you can stop all containers by executing the `kill.sh` script.
+Once you are done, you can stop all containers by executing the [`kill.sh`](./kill.sh) script.
 
 ## Keys
 
