@@ -43,26 +43,28 @@ async function main() {
     const sudoAcc = await initAccount(sudoHex);
 
     if (wasm.length && genesisHead.length) {
-        console.log(`--- Connecting to WS provider ${relayProvider} ---`);
-        let relayChainApi = await connect(
-            relayProvider,
-            {}
-        );
-        // get latest metadata to get information of sudo errors
-        const metadata = (await relayChainApi.rpc.state.getMetadata()).asLatest.toJSON();
+        try {
+            console.log(`--- Connecting to WS provider ${relayProvider} ---`);
+            let relayChainApi = await connect(
+                relayProvider,
+                {}
+            );
+            // reduce parachain runtime upgrade delay to 5 blocks
+            await setMinParaUpgradeDelay({ api: relayChainApi, sudoAcc, finalization: false });
+            // register parathread and immediately make it a parachain
+            await registerParachain({ api: relayChainApi, sudoAcc, paraId, wasm, genesisHead, finalization: true });
+            await registerParachain({ api: relayChainApi, sudoAcc, paraId, wasm, genesisHead, finalization: true });
+            // force lease from period 0 to period 365 for sudoAcc with balance 1000
+            await forceLease({ api: relayChainApi, finalization: true, sudoAcc, leaser: sudoAcc.address, paraId, ...forceLeaseData });
+            // speed up onboarding process by forcedly putting parachain directly into the next session
+            // unfortunately, we cannot trigger new sessions via an extrinsic 🥶
+            await speedUpParaOnboarding({ api: relayChainApi, sudoAcc, paraId, finalization: true });
 
-        // reduce parachain runtime upgrade delay to 5 blocks
-        await setMinParaUpgradeDelay({ api: relayChainApi, sudoAcc, metadata, finalization: false });
-        // register parathread and immediately make it a parachain
-        await registerParachain({ api: relayChainApi, sudoAcc, paraId, wasm, genesisHead, finalization: true });
-        // force lease from period 0 to period 365 for sudoAcc with balance 1000
-        await forceLease({ api: relayChainApi, metadata, finalization: true, sudoAcc, leaser: sudoAcc.address, paraId, ...forceLeaseData });
-        // speed up onboarding process by forcedly putting parachain directly into the next session
-        // unfortunately, we cannot trigger new sessions via an extrinsic 🥶
-        await speedUpParaOnboarding({ api: relayChainApi, sudoAcc, paraId, metadata, finalization: true});
-
-        await relayChainApi.disconnect();
-        console.log(`--- Done! Disconnected from WS provider ${relayProvider} ---`);
+            await relayChainApi.disconnect();
+            console.log(`--- Done! Disconnected from WS provider ${relayProvider} ---`);
+        } catch (e) {
+            throw Error(e)
+        }
     } else {
         console.error(wasm ? `Genesis head missing` : `Wasm missing`);
     }
