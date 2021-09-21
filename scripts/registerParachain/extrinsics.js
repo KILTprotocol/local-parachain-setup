@@ -130,7 +130,7 @@ async function setMinParaUpgradeDelay({ api, sudoAcc, finalization = false }) {
             `--- Submitting extrinsic to reduce parachain upgrade delay to 5 blocks ---`
         );
         const unsub = await api.tx.sudo
-            .sudo(api.tx.parachainsConfiguration.setValidationUpgradeDelay(5))
+            .sudo(api.tx.configuration.setValidationUpgradeDelay(5))
             .signAndSend(sudoAcc, ({ events = [], status, dispatchError }) =>
                 sudoHandler({ api, events, status, dispatchError, finalization, unsub, resolvePromise, reject })
             );
