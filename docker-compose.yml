@@ -2,12 +2,12 @@ version: "3"
 
 services:
   relay-node-alice:
-    image: ${POLKADOT_IMG}
+    image: ${RELAY_IMG}
     command:
       [
         "--port=${PORT_RELAY_ALICE_LIBP2P}",
         "--no-mdns",
-        "--chain=/data/spec/${POLKADOT_RAW_SPEC_FILE}",
+        "--chain=${RELAY_CHAIN_SPEC}",
         "--ws-port=${PORT_RELAY_ALICE_WS}",
         "--ws-external",
         "--rpc-external",
@@ -32,12 +32,12 @@ services:
       - ${PORT_RELAY_ALICE_LIBP2P}
 
   relay-node-bob:
-    image: ${POLKADOT_IMG}
+    image: ${RELAY_IMG}
     command:
       [
         "--port=${PORT_RELAY_BOB_LIBP2P}",
         "--no-mdns",
-        "--chain=/data/spec/${POLKADOT_RAW_SPEC_FILE}",
+        "--chain=${RELAY_CHAIN_SPEC}",
         "--ws-port=${PORT_RELAY_BOB_WS}",
         "--ws-external",
         "--rpc-external",
@@ -45,8 +45,8 @@ services:
         "--unsafe-rpc-external",
         "--rpc-methods=unsafe",
         "--validator",
-        "--node-key-file=/data/spec/relay/bob.key",
         "--bob",
+        "--node-key-file=/data/spec/relay/bob.key",
         "--bootnodes",
         "/dns4/relay-node-alice/tcp/${PORT_RELAY_ALICE_LIBP2P}/p2p/12D3KooWPU8zhfbYjr6mGuDdrrkQMFfDm2edXFYkkkmyCBont8K5",
         "/dns4/relay-node-bob/tcp/${PORT_RELAY_BOB_LIBP2P}/p2p/12D3KooWGFFpuUgFSFwNVLeVhNJ6m25jgv15pK8xcbdqaAj9gfnc",
@@ -62,12 +62,12 @@ services:
       - ${PORT_RELAY_BOB_LIBP2P}
   
   relay-node-charlie:
-    image: ${POLKADOT_IMG}
+    image: ${RELAY_IMG}
     command:
       [
         "--port=${PORT_RELAY_CHARLIE_LIBP2P}",
         "--no-mdns",
-        "--chain=/data/spec/${POLKADOT_RAW_SPEC_FILE}",
+        "--chain=${RELAY_CHAIN_SPEC}",
         "--ws-port=${PORT_RELAY_CHARLIE_WS}",
         "--ws-external",
         "--rpc-external",
@@ -75,8 +75,8 @@ services:
         "--unsafe-rpc-external",
         "--rpc-methods=unsafe",
         "--validator",
-        "--node-key-file=/data/spec/relay/charlie.key",
         "--charlie",
+        "--node-key-file=/data/spec/relay/charlie.key",
         "--bootnodes",
         "/dns4/relay-node-alice/tcp/${PORT_RELAY_ALICE_LIBP2P}/p2p/12D3KooWPU8zhfbYjr6mGuDdrrkQMFfDm2edXFYkkkmyCBont8K5",
         "/dns4/relay-node-bob/tcp/${PORT_RELAY_BOB_LIBP2P}/p2p/12D3KooWGFFpuUgFSFwNVLeVhNJ6m25jgv15pK8xcbdqaAj9gfnc",
@@ -117,7 +117,7 @@ services:
         "--execution=wasm",
         "--",
         "--port=${PORT_RELAY_ALICE_LIBP2P}",
-        "--chain=/data/spec/${POLKADOT_RAW_SPEC_FILE}",
+        "--chain=${RELAY_CHAIN_SPEC}",
         "--execution=wasm",
         "--bootnodes",
         "/dns4/relay-node-alice/tcp/${PORT_RELAY_ALICE_LIBP2P}/p2p/12D3KooWPU8zhfbYjr6mGuDdrrkQMFfDm2edXFYkkkmyCBont8K5",
@@ -161,7 +161,7 @@ services:
         "--execution=wasm",
         "--",
         "--port=${PORT_RELAY_ALICE_LIBP2P}",
-        "--chain=/data/spec/${POLKADOT_RAW_SPEC_FILE}",
+        "--chain=${RELAY_CHAIN_SPEC}",
         "--execution=wasm",
         "--bootnodes",
         "/dns4/relay-node-alice/tcp/${PORT_RELAY_ALICE_LIBP2P}/p2p/12D3KooWPU8zhfbYjr6mGuDdrrkQMFfDm2edXFYkkkmyCBont8K5",
