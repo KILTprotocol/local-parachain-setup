@@ -4,8 +4,8 @@ const { cryptoWaitReady } = require('@polkadot/util-crypto');
 const { setMinParaUpgradeDelay, registerParachain, forceLease, speedUpParaOnboarding } = require('./extrinsics');
 const { readFileFromPath } = require('./readFile');
 
-const wasmPath = path.join('/wasm', 'kilt.wasm');
-const genesisPath = path.join('/wasm', 'kilt-genesis.hex');
+const wasmPath = path.join(__dirname, '/wasm', 'kilt.wasm');
+const genesisPath = path.join(__dirname, '/wasm', 'kilt-genesis.hex');
 const relayProvider = process.env.RELAY_WS_ENDPOINT || 'ws://127.0.0.1:9944'
 const paraId = process.env.PARA_ID || 2000;
 const sudoHex = process.env.RELAY_SUDO;
@@ -52,7 +52,6 @@ async function main() {
             // reduce parachain runtime upgrade delay to 5 blocks
             await setMinParaUpgradeDelay({ api: relayChainApi, sudoAcc, finalization: false });
             // register parathread and immediately make it a parachain
-            await registerParachain({ api: relayChainApi, sudoAcc, paraId, wasm, genesisHead, finalization: true });
             await registerParachain({ api: relayChainApi, sudoAcc, paraId, wasm, genesisHead, finalization: true });
             // force lease from period 0 to period 365 for sudoAcc with balance 1000
             await forceLease({ api: relayChainApi, finalization: true, sudoAcc, leaser: sudoAcc.address, paraId, ...forceLeaseData });
