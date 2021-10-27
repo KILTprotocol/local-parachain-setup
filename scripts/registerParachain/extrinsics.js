@@ -76,7 +76,7 @@ async function forceLease({ api, sudoAcc, finalization, paraId, leaser, amount, 
         const unsubForce = await api.tx.sudo
             .sudo(api.tx.slots.forceLease(paraId, leaser, amount, begin, count))
             .signAndSend(sudoAcc, ({ events = [], status, dispatchError }) =>
-                sudoHandler({ events, status, dispatchError, finalization: false, unsub: unsubForce, resolvePromise, reject }))
+                sudoHandler({ api, events, status, dispatchError, finalization: false, unsub: unsubForce, resolvePromise, reject }))
     }).catch(async (_e) => {
         console.log(`-- Encountered Error during forceLease, clearing all leases now and forcing new onces -- 
         `);
@@ -85,14 +85,14 @@ async function forceLease({ api, sudoAcc, finalization, paraId, leaser, amount, 
             const unsubClear = await api.tx.sudo
                 .sudo(api.tx.slots.clearAllLeases(paraId))
                 .signAndSend(sudoAcc, { nonce: -1 }, ({ events = [], status, dispatchError }) =>
-                    sudoHandler({ events, status, dispatchError, finalization, unsub: unsubClear, resolvePromise: resolveInner, reject: rejectInner })
+                    sudoHandler({ api, events, status, dispatchError, finalization, unsub: unsubClear, resolvePromise: resolveInner, reject: rejectInner })
                 );
             console.log(`Cleared parachain leases`);
             // retry forceLease
             const unsubForceAgain = await api.tx.sudo
                 .sudo(api.tx.slots.forceLease(paraId, leaser, amount, begin, count))
                 .signAndSend(sudoAcc, { nonce: -1 }, ({ events = [], status, dispatchError }) =>
-                    sudoHandler({ events, status, dispatchError, finalization, unsub: unsubForceAgain, resolvePromise: resolveInner, reject: rejectInner })
+                    sudoHandler({ api, events, status, dispatchError, finalization, unsub: unsubForceAgain, resolvePromise: resolveInner, reject: rejectInner })
                 );
         })
     })
