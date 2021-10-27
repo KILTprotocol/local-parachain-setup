@@ -3,7 +3,7 @@
 1. In the `.env`
    1. Select the [KILT image](https://hub.docker.com/r/kiltprotocol/peregrine/tags?page=1&ordering=last_updated) and the [corresponding spec](https://github.com/KILTprotocol/mashnet-node/blob/develop/nodes/parachain/src/command.rs#L41). The runtime should always be `peregrine` because otherwise you would run in `standalone` which does neither require nor work with the parachain setup.
    ```
-    KILT_IMG=kiltprotocol/peregrine:78342538
+    KILT_IMG=kiltprotocol/kilt-node:78342538
     KILT_RAW_SPEC_FILE=dev
    ```
    2. Select the [Polkadot image to run](https://hub.docker.com/r/parity/polkadot/tags?page=1&ordering=last_updated). Typically, this should be the latest image.
