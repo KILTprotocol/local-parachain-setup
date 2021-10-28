@@ -1,7 +1,7 @@
 # How to setup the KILT Parachain
 
 1. In the `.env`
-   1. Select the [KILT image](https://hub.docker.com/r/kiltprotocol/peregrine/tags?page=1&ordering=last_updated) and the [corresponding spec](https://github.com/KILTprotocol/mashnet-node/blob/develop/nodes/parachain/src/command.rs#L41). The runtime should always be `peregrine` or `spiritnet` because otherwise you would run in `standalone` which does neither require nor work with the parachain setup.
+   1. Select the [KILT image](https://hub.docker.com/r/kiltprotocol/kilt-node/tags?page=1&ordering=last_updated) and the [corresponding spec](https://github.com/KILTprotocol/mashnet-node/blob/develop/nodes/parachain/src/command.rs#L41). The runtime should always be `peregrine` or `spiritnet` because otherwise you would run in `standalone` which does neither require nor work with the parachain setup.
    ```
    KILT_IMG=kiltprotocol/kilt-node:develop
    KILT_RAW_SPEC_FILE=spiritnet-dev
