@@ -14,8 +14,8 @@ PROJECT_NAME=$USER-${PWD##*/}
 docker compose -p $PROJECT_NAME down -v
 
 # Get relay chain spec, genesis wasm+head
-docker run --rm $KILT_IMG export-genesis-state --chain=$KILT_RAW_SPEC_FILE --runtime=$KILT_RUNTIME > specs/kilt-genesis.hex
-docker run --rm $KILT_IMG export-genesis-wasm --chain=$KILT_RAW_SPEC_FILE --runtime=$KILT_RUNTIME > specs/kilt.wasm
+docker run -v $PWD/specs:/data/spec --rm $KILT_IMG export-genesis-state --chain=$KILT_RAW_SPEC_FILE --runtime=$KILT_RUNTIME > specs/kilt-genesis.hex
+docker run -v $PWD/specs:/data/spec --rm $KILT_IMG export-genesis-wasm --chain=$KILT_RAW_SPEC_FILE --runtime=$KILT_RUNTIME > specs/kilt.wasm
 
 # Active the line below if you are using a pre-compiled relay chain spec (peregrine {stg, prod})
 # Else you need to build your own relay spec in the Polkadot repository (rococo-local for dev)
