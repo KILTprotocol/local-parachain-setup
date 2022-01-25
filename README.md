@@ -1,19 +1,27 @@
 # How to setup the KILT Parachain
 
+In case you want to JSON Chainspecs for either or both the KILT parachain as well as the Polkadot relay chain, please put them into the [specs](./specs) directory.
+This folder will be mounted into a volume inside the KILT docker image.
+
 1. In the `.env`
-   1. Select the [KILT image](https://hub.docker.com/r/kiltprotocol/peregrine/tags?page=1&ordering=last_updated) and the [corresponding spec](https://github.com/KILTprotocol/mashnet-node/blob/develop/nodes/parachain/src/command.rs#L41). The runtime should always be `peregrine` or `spiritnet` because otherwise you would run in `standalone` which does neither require nor work with the parachain setup.
+   1. Select the [KILT image](https://hub.docker.com/r/kiltprotocol/peregrine/tags?page=1&ordering=last_updated) and the [corresponding spec](https://github.com/KILTprotocol/mashnet-node/blob/develop/nodes/parachain/src/command.rs#L41).
+   * The runtime should always be `peregrine` or `spiritnet` because otherwise you would run in `standalone` which does neither require nor work with the parachain setup.
    ```
    KILT_IMG=kiltprotocol/kilt-node:develop
    KILT_RAW_SPEC_FILE=spiritnet-dev
    KILT_RUNTIME=spiritnet
    ```
-   2. Select the [Polkadot image to run](https://hub.docker.com/r/parity/polkadot/tags?page=1&ordering=last_updated). Typically, this should be the latest image. Please note that **if you bump the version number, you might [need to build a relay spec](#relay-spec)**.
+   2. Select the [Polkadot image to run](https://hub.docker.com/r/parity/polkadot/tags?page=1&ordering=last_updated).
+   * Typically, this should be the latest image. Please note that **if you bump the version number, you might [need to build a relay spec](#relay-spec)**.
    ```
-   RELAY_IMG=parity/polkadot:v0.9.11
-   RELAY_RAW_SPEC_FILE=rococo-0.9.11.raw.json
+   RELAY_IMG=parity/polkadot:v0.9.13
+   RELAY_RAW_SPEC_FILE=rococo-0.9.13.raw.json
    RELAY_CHAIN_SPEC=/data/spec/${RELAY_RAW_SPEC_FILE}
    ```
-   3. If you have made adjustments to the parachain id, please change it. Typically, this should be `2000`. If you are unsure, go to step 2 and check the parachain id in the logs or the [Polkadot Apps](https://polkadot.js.org/apps/?rpc=ws%3A%2F%2F127.0.0.1%3A9944#/extrinsics) at _Developer > Chain State > parachainInfo::parachainId_. 
+   3. If you have made adjustments to the parachain id, please change it.
+   * Typically, this should be `2000`.
+   * If you are unsure, go to step 2 and check the parachain id in the logs or the [Polkadot Apps](https://polkadot.js.org/apps/?rpc=ws%3A%2F%2F127.0.0.1%3A9944#/extrinsics) at _Developer > Chain State > parachainInfo::parachainId_. 
+   * You might have to manually re-build the `registerParachain` script in case you have built it before with the incorrect parachain ID.
    ```
    PARA_ID=2000
    RELAY_SUDO_KEY="//Alice"
@@ -32,7 +40,7 @@ When bumping the version number of the Polkadot relay chain image, chances are h
 Depending on the chain spec for the KILT collator, you either need to do this in the [Polkadot](https://github.com/paritytech/polkadot) or the [kilt-node](https://github.com/KILTprotocol/mashnet-node/tree/develop/.maintain/reset-spec) repo.
 **We recommend to stick with a dev spec for simplicity.**
 
-After building the spec, please move it inside the [specs](./specs) directory.
+After building the spec, please move it inside the [specs](./specs) directory which will be mounted inside the KILT docker image.
 
 ### Dev Spec
 
@@ -49,10 +57,7 @@ If you still want to proceed, have a look [here](https://github.com/KILTprotocol
 
 ## Keys
 
-Account, node and session keys can be found in [keys](/keys).
-## Custom Types
-
-Custom types for the polkadot-apps are in [kilt-types.json](./kilt-types.json)
+The node keys can be found in [keys](/keys). We recommend to use the default session keys of Alice, Bob, Charlie for your collators because else you have to configure those as well.
 
 ## How to register a Parachain manually
 
