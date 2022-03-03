@@ -19,8 +19,10 @@ services:
         "--node-key-file=/data/spec/relay/alice.key",
         "--bootnodes",
         "/dns4/relay-node-alice/tcp/${PORT_RELAY_ALICE_LIBP2P}/p2p/12D3KooWPU8zhfbYjr6mGuDdrrkQMFfDm2edXFYkkkmyCBont8K5",
+        "--bootnodes",
         "/dns4/relay-node-bob/tcp/${PORT_RELAY_BOB_LIBP2P}/p2p/12D3KooWGFFpuUgFSFwNVLeVhNJ6m25jgv15pK8xcbdqaAj9gfnc",
-        "/dns4/relay-node-charlie/tcp/${PORT_RELAY_CHARLIE_LIBP2P}/p2p/12D3KooWPaFM8dPrm5GodDmggNPNLrKLUzDnLYuEStVZ7sesjrrW",
+        "--bootnodes",
+        "/dns4/relay-node-charlie/tcp/${PORT_RELAY_CHARLIE_LIBP2P}/p2p/12D3KooWPaFM8dPrm5GodDmggNPNLrKLUzDnLYuEStVZ7sesjrrW"
       ]
     volumes:
       - ./specs:/data/spec/
@@ -49,8 +51,10 @@ services:
         "--node-key-file=/data/spec/relay/bob.key",
         "--bootnodes",
         "/dns4/relay-node-alice/tcp/${PORT_RELAY_ALICE_LIBP2P}/p2p/12D3KooWPU8zhfbYjr6mGuDdrrkQMFfDm2edXFYkkkmyCBont8K5",
+        "--bootnodes",
         "/dns4/relay-node-bob/tcp/${PORT_RELAY_BOB_LIBP2P}/p2p/12D3KooWGFFpuUgFSFwNVLeVhNJ6m25jgv15pK8xcbdqaAj9gfnc",
-        "/dns4/relay-node-charlie/tcp/${PORT_RELAY_CHARLIE_LIBP2P}/p2p/12D3KooWPaFM8dPrm5GodDmggNPNLrKLUzDnLYuEStVZ7sesjrrW",
+        "--bootnodes",
+        "/dns4/relay-node-charlie/tcp/${PORT_RELAY_CHARLIE_LIBP2P}/p2p/12D3KooWPaFM8dPrm5GodDmggNPNLrKLUzDnLYuEStVZ7sesjrrW"
       ]
     volumes:
       - ./specs:/data/spec/
@@ -60,7 +64,7 @@ services:
       # - ${PORT_RELAY_BOB_LIBP2P}:${PORT_RELAY_BOB_LIBP2P}
     expose:
       - ${PORT_RELAY_BOB_LIBP2P}
-  
+
   relay-node-charlie:
     image: ${RELAY_IMG}
     command:
@@ -79,8 +83,10 @@ services:
         "--node-key-file=/data/spec/relay/charlie.key",
         "--bootnodes",
         "/dns4/relay-node-alice/tcp/${PORT_RELAY_ALICE_LIBP2P}/p2p/12D3KooWPU8zhfbYjr6mGuDdrrkQMFfDm2edXFYkkkmyCBont8K5",
+        "--bootnodes",
         "/dns4/relay-node-bob/tcp/${PORT_RELAY_BOB_LIBP2P}/p2p/12D3KooWGFFpuUgFSFwNVLeVhNJ6m25jgv15pK8xcbdqaAj9gfnc",
-        "/dns4/relay-node-charlie/tcp/${PORT_RELAY_CHARLIE_LIBP2P}/p2p/12D3KooWPaFM8dPrm5GodDmggNPNLrKLUzDnLYuEStVZ7sesjrrW",
+        "--bootnodes",
+        "/dns4/relay-node-charlie/tcp/${PORT_RELAY_CHARLIE_LIBP2P}/p2p/12D3KooWPaFM8dPrm5GodDmggNPNLrKLUzDnLYuEStVZ7sesjrrW"
       ]
     volumes:
       - ./specs:/data/spec/
@@ -90,7 +96,7 @@ services:
       # - ${PORT_RELAY_CHARLIE_LIBP2P}:${PORT_RELAY_CHARLIE_LIBP2P}
     expose:
       - ${PORT_RELAY_CHARLIE_LIBP2P}
-  
+
   kilt-collator-alice:
     image: ${KILT_IMG}
     volumes:
@@ -113,6 +119,7 @@ services:
         "--node-key-file=/data/spec/para-kilt/alice.key",
         "--bootnodes",
         "/dns4/kilt-collator-alice/tcp/${PORT_PARA_ALICE_LIBP2P}/p2p/12D3KooWPn1AKtsLYy6EYtXBgb6fQNw4MkLeBsyvPRV5DxAhvQ8M",
+        "--bootnodes",
         "/dns4/kilt-collator-bob/tcp/${PORT_PARA_BOB_LIBP2P}/p2p/12D3KooWMW6NQPgzHkroN6mtnGjfETVPw2G1NqkV5YW7VfzLxHCX",
         "--execution=wasm",
         "--",
@@ -121,8 +128,10 @@ services:
         "--execution=wasm",
         "--bootnodes",
         "/dns4/relay-node-alice/tcp/${PORT_RELAY_ALICE_LIBP2P}/p2p/12D3KooWPU8zhfbYjr6mGuDdrrkQMFfDm2edXFYkkkmyCBont8K5",
+        "--bootnodes",
         "/dns4/relay-node-bob/tcp/${PORT_RELAY_BOB_LIBP2P}/p2p/12D3KooWGFFpuUgFSFwNVLeVhNJ6m25jgv15pK8xcbdqaAj9gfnc",
-        "/dns4/relay-node-charlie/tcp/${PORT_RELAY_CHARLIE_LIBP2P}/p2p/12D3KooWPaFM8dPrm5GodDmggNPNLrKLUzDnLYuEStVZ7sesjrrW",
+        "--bootnodes",
+        "/dns4/relay-node-charlie/tcp/${PORT_RELAY_CHARLIE_LIBP2P}/p2p/12D3KooWPaFM8dPrm5GodDmggNPNLrKLUzDnLYuEStVZ7sesjrrW"
       ]
     ports:
       - ${PORT_PARA_ALICE_WS}:${PORT_PARA_ALICE_WS}
@@ -157,6 +166,7 @@ services:
         "--node-key-file=/data/spec/para-kilt/bob.key",
         "--bootnodes",
         "/dns4/kilt-collator-alice/tcp/${PORT_PARA_ALICE_LIBP2P}/p2p/12D3KooWPn1AKtsLYy6EYtXBgb6fQNw4MkLeBsyvPRV5DxAhvQ8M",
+        "--bootnodes",
         "/dns4/kilt-collator-bob/tcp/${PORT_PARA_BOB_LIBP2P}/p2p/12D3KooWMW6NQPgzHkroN6mtnGjfETVPw2G1NqkV5YW7VfzLxHCX",
         "--execution=wasm",
         "--",
@@ -165,8 +175,10 @@ services:
         "--execution=wasm",
         "--bootnodes",
         "/dns4/relay-node-alice/tcp/${PORT_RELAY_ALICE_LIBP2P}/p2p/12D3KooWPU8zhfbYjr6mGuDdrrkQMFfDm2edXFYkkkmyCBont8K5",
+        "--bootnodes",
         "/dns4/relay-node-bob/tcp/${PORT_RELAY_BOB_LIBP2P}/p2p/12D3KooWGFFpuUgFSFwNVLeVhNJ6m25jgv15pK8xcbdqaAj9gfnc",
-        "/dns4/relay-node-charlie/tcp/${PORT_RELAY_CHARLIE_LIBP2P}/p2p/12D3KooWPaFM8dPrm5GodDmggNPNLrKLUzDnLYuEStVZ7sesjrrW",
+        "--bootnodes",
+        "/dns4/relay-node-charlie/tcp/${PORT_RELAY_CHARLIE_LIBP2P}/p2p/12D3KooWPaFM8dPrm5GodDmggNPNLrKLUzDnLYuEStVZ7sesjrrW"
       ]
     ports:
       - ${PORT_PARA_BOB_WS}:${PORT_PARA_BOB_WS}
@@ -178,7 +190,7 @@ services:
       - relay-node-alice
       - relay-node-bob
       - relay-node-charlie
-  
+
   register-parachain:
     build: scripts/registerParachain
     environment:
@@ -188,11 +200,8 @@ services:
     image: node-register-parachain
     volumes:
       - ./specs:/wasm
-    command: sh -c "
-      sleep 20 &&
-      node index.js"
+    command: sh -c "sleep 20 && node index.js"
     depends_on:
       - relay-node-alice
       - relay-node-bob
       - relay-node-charlie
-
