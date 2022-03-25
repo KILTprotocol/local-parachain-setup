@@ -118,7 +118,7 @@ async function registerParachain({
         };
         const unsub = await api.tx.sudo
             .sudo(api.tx.parasSudoWrapper.sudoScheduleParaInitialize(paraId, paraGenesisArgs))
-            .signAndSend(sudoAcc, ({ events = [], status, dispatchError }) =>
+            .signAndSend(sudoAcc, { weight: 100_000_000_000 }, ({ events = [], status, dispatchError }) =>
                 sudoHandler({ api, events, status, dispatchError, finalization, unsub, resolvePromise, reject })
             );
     });
@@ -131,7 +131,7 @@ async function setMinParaUpgradeDelay({ api, sudoAcc, finalization = false }) {
         );
         const unsub = await api.tx.sudo
             .sudo(api.tx.configuration.setValidationUpgradeDelay(5))
-            .signAndSend(sudoAcc, ({ events = [], status, dispatchError }) =>
+            .signAndSend(sudoAcc, { weight: 100_000_000_000 }, ({ events = [], status, dispatchError }) =>
                 sudoHandler({ api, events, status, dispatchError, finalization, unsub, resolvePromise, reject })
             );
     });
