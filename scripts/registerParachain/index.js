@@ -50,7 +50,7 @@ async function main() {
                 {}
             );
             // reduce parachain runtime upgrade delay to 5 blocks
-            // await setMinParaUpgradeDelay({ api: relayChainApi, sudoAcc, finalization: false });
+            await setMinParaUpgradeDelay({ api: relayChainApi, sudoAcc, finalization: false });
             // register parathread and immediately make it a parachain
             await registerParachain({ api: relayChainApi, sudoAcc, paraId, wasm, genesisHead, finalization: true });
             // force lease from period 0 to period 365 for sudoAcc with balance 1000
