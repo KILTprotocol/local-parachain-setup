@@ -118,7 +118,7 @@ async function registerParachain({
         };
         const unsub = await api.tx.sudo
             .sudo(api.tx.parasSudoWrapper.sudoScheduleParaInitialize(paraId, paraGenesisArgs))
-            .signAndSend(sudoAcc, { weight: 100_000_000_000 }, ({ events = [], status, dispatchError }) =>
+            .signAndSend(sudoAcc, ({ events = [], status, dispatchError }) =>
                 sudoHandler({ api, events, status, dispatchError, finalization, unsub, resolvePromise, reject })
             );
     });
