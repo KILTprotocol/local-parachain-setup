@@ -16,8 +16,9 @@ docker compose -p $PROJECT_NAME down -v
 docker run -v $PWD/specs:/data/spec --rm $KILT_IMG build-spec --chain=$KILT_SOURCE_SPEC --raw > specs/raw-$KILT_SOURCE_SPEC.json
 
 export KILT_RAW_SPEC_FILE=/data/spec/raw-$KILT_SOURCE_SPEC.json
+# export KILT_RAW_SPEC_FILE=clone
 
-# Get relay chain spec, genesis wasm+head
+# get genesis wasm+head
 docker run -v $PWD/specs:/data/spec --rm $KILT_IMG export-genesis-state --chain=$KILT_RAW_SPEC_FILE > specs/kilt-genesis.hex
 docker run -v $PWD/specs:/data/spec --rm $KILT_IMG export-genesis-wasm --chain=$KILT_RAW_SPEC_FILE > specs/kilt.wasm
 

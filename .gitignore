@@ -5,3 +5,5 @@ polkadot.raw.json
 # node
 node_modules
 package-lock.json
+
+volume/*
