@@ -13,14 +13,16 @@ PROJECT_NAME=$USER-${PWD##*/}
 # TEARDOWN AND DELETE
 docker compose -p $PROJECT_NAME down -v
 
-docker run -v $PWD/specs:/data/spec --rm $KILT_IMG build-spec --chain=$KILT_SOURCE_SPEC --raw > specs/raw-$KILT_SOURCE_SPEC.json
+docker run -v $PWD/specs:/data/spec --rm $KILT_IMG build-spec --chain=$KILT_SOURCE_SPEC >specs/$KILT_SOURCE_SPEC-plain.json
 
-export KILT_RAW_SPEC_FILE=/data/spec/raw-$KILT_SOURCE_SPEC.json
+python3 ./update_para_id.py specs/$KILT_SOURCE_SPEC-plain.json $PARA_ID
+
+export KILT_RAW_SPEC_FILE=/data/spec/$KILT_SOURCE_SPEC-plain.json
 # export KILT_RAW_SPEC_FILE=clone
 
 # get genesis wasm+head
-docker run -v $PWD/specs:/data/spec --rm $KILT_IMG export-genesis-state --chain=$KILT_RAW_SPEC_FILE > specs/kilt-genesis.hex
-docker run -v $PWD/specs:/data/spec --rm $KILT_IMG export-genesis-wasm --chain=$KILT_RAW_SPEC_FILE > specs/kilt.wasm
+docker run -v $PWD/specs:/data/spec --rm $KILT_IMG export-genesis-state --chain=$KILT_RAW_SPEC_FILE >specs/kilt-genesis.hex
+docker run -v $PWD/specs:/data/spec --rm $KILT_IMG export-genesis-wasm --chain=$KILT_RAW_SPEC_FILE >specs/kilt.wasm
 
 # Active the line below if you are using a pre-compiled relay chain spec (peregrine {stg, prod})
 # Else you need to build your own relay spec in the Polkadot repository (rococo-local for dev)

@@ -67,3 +67,5 @@ The following steps are only required if the `registerParachain` scripts fails o
    * With Sudo: _Sudo > registrar > forceRegister > Submit Sudo_
    * Without Sudo: Register the parachain in the Polkadot Apps: _Network > Parachains > Parathreads -> `+ Register`_.
 2. Increase parachain Duration: _Sudo > slots::forceLease_ 
+
+61757261
