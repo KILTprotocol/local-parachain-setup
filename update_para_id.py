@@ -12,6 +12,7 @@ if __name__ == "__main__":
 
     input_json["para_id"] = new_paraid
     input_json["genesis"]["runtime"]["parachainInfo"]["parachainId"] = new_paraid
+    input_json["bootNodes"] = []
 
     with open(input_file, "w") as f:
-        json.dump(input_json, f)
+        json.dump(input_json, f, indent=2)
