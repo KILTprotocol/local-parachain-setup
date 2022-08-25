@@ -10,6 +10,11 @@ set +o allexport
 # PROJECT_NAME = <user_id>-<current_directory_name>
 PROJECT_NAME=$USER-${PWD##*/}$2
 
+export KILT_RAW_SPEC_FILE=/data/spec/$KILT_SOURCE_SPEC-raw.json
+
+export PARA_WASM=kilt$1.wasm
+export PARA_GENESIS=kilt-genesis$1.hex
+export RELAY_CHAIN_SPEC=/data/spec/${RELAY_RAW_SPEC_FILE}
 
 # Spin it up the network and script
 docker compose -p $PROJECT_NAME stop $1

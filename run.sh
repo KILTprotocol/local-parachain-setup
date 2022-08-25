@@ -15,7 +15,7 @@ docker compose -p $PROJECT_NAME down -v
 
 docker run -v $PWD/specs:/data/spec --rm $KILT_IMG build-spec --chain=$KILT_SOURCE_SPEC >specs/$KILT_SOURCE_SPEC-plain.json
 
-python3 ./update_para_id.py specs/$KILT_SOURCE_SPEC-plain.json $PARA_ID
+python3 ./scripts/update_para_id.py ./specs/$KILT_SOURCE_SPEC-plain.json $PARA_ID
 
 docker run -v $PWD/specs:/data/spec --rm $KILT_IMG build-spec --chain=/data/spec/$KILT_SOURCE_SPEC-plain.json --raw >specs/$KILT_SOURCE_SPEC-raw.json
 
