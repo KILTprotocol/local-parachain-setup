@@ -125,14 +125,21 @@ services:
         "--execution=wasm",
         "--",
         "--port=${PORT_RELAY_ALICE_LIBP2P}",
-        "--chain=${RELAY_CHAIN_SPEC}",
         "--execution=wasm",
+        "--chain=${RELAY_CHAIN_SPEC}",
         "--bootnodes",
         "/dns4/relay-node-alice/tcp/${PORT_RELAY_ALICE_LIBP2P}/p2p/12D3KooWPU8zhfbYjr6mGuDdrrkQMFfDm2edXFYkkkmyCBont8K5",
         "--bootnodes",
         "/dns4/relay-node-bob/tcp/${PORT_RELAY_BOB_LIBP2P}/p2p/12D3KooWGFFpuUgFSFwNVLeVhNJ6m25jgv15pK8xcbdqaAj9gfnc",
         "--bootnodes",
         "/dns4/relay-node-charlie/tcp/${PORT_RELAY_CHARLIE_LIBP2P}/p2p/12D3KooWPaFM8dPrm5GodDmggNPNLrKLUzDnLYuEStVZ7sesjrrW"
+        # "--chain=/data/spec/rococo-0.9.27.raw2.json",
+        # "--bootnodes",
+        # "/ip4/78.46.69.208/tcp/24333/p2p/12D3KooWPU8zhfbYjr6mGuDdrrkQMFfDm2edXFYkkkmyCBont8K5",
+        # "--bootnodes",
+        # "/ip4/78.46.69.208/tcp/24334/p2p/12D3KooWGFFpuUgFSFwNVLeVhNJ6m25jgv15pK8xcbdqaAj9gfnc",
+        # "--bootnodes",
+        # "/ip4/78.46.69.208/tcp/24335/p2p/12D3KooWPaFM8dPrm5GodDmggNPNLrKLUzDnLYuEStVZ7sesjrrW"
       ]
     ports:
       - ${PORT_PARA_ALICE_WS}:${PORT_PARA_ALICE_WS}
@@ -145,7 +152,7 @@ services:
     image: ${KILT_IMG}
     volumes:
       - ./specs:/data/spec/
-      # - ./volume/kilt-bob/key:/data/key
+      - ./volume/kilt-bob${NAME}/key:/data/key
       - ./volume/kilt-bob${NAME}/db:/data/db-para
     command:
       [
@@ -168,23 +175,32 @@ services:
         "/dns4/kilt-collator-alice/tcp/${PORT_PARA_ALICE_LIBP2P}/p2p/12D3KooWPn1AKtsLYy6EYtXBgb6fQNw4MkLeBsyvPRV5DxAhvQ8M",
         "--execution=wasm",
         "--",
+        "--no-mdns",
         "-d=/data/db-relay",
-        "--port=${PORT_RELAY_ALICE_LIBP2P}",
-        "--chain=${RELAY_CHAIN_SPEC}",
+        "--port=${PORT_PARA_BOB_LIBP2P_R}",
         "--execution=wasm",
+        "--chain=${RELAY_CHAIN_SPEC}",
         "--bootnodes",
         "/dns4/relay-node-alice/tcp/${PORT_RELAY_ALICE_LIBP2P}/p2p/12D3KooWPU8zhfbYjr6mGuDdrrkQMFfDm2edXFYkkkmyCBont8K5",
         "--bootnodes",
         "/dns4/relay-node-bob/tcp/${PORT_RELAY_BOB_LIBP2P}/p2p/12D3KooWGFFpuUgFSFwNVLeVhNJ6m25jgv15pK8xcbdqaAj9gfnc",
         "--bootnodes",
         "/dns4/relay-node-charlie/tcp/${PORT_RELAY_CHARLIE_LIBP2P}/p2p/12D3KooWPaFM8dPrm5GodDmggNPNLrKLUzDnLYuEStVZ7sesjrrW"
+        # "--chain=/data/spec/rococo-0.9.27.raw2.json",
+        # "--bootnodes",
+        # "/ip4/78.46.69.208/tcp/20333/p2p/12D3KooWPU8zhfbYjr6mGuDdrrkQMFfDm2edXFYkkkmyCBont8K5",
+        # "--bootnodes",
+        # "/ip4/78.46.69.208/tcp/20334/p2p/12D3KooWGFFpuUgFSFwNVLeVhNJ6m25jgv15pK8xcbdqaAj9gfnc",
+        # "--bootnodes",
+        # "/ip4/78.46.69.208/tcp/20335/p2p/12D3KooWPaFM8dPrm5GodDmggNPNLrKLUzDnLYuEStVZ7sesjrrW"
       ]
     ports:
       - ${PORT_PARA_BOB_WS}:${PORT_PARA_BOB_WS}
       - ${PORT_PARA_BOB_LIBP2P}:${PORT_PARA_BOB_LIBP2P}
+      - ${PORT_PARA_BOB_LIBP2P_R}:${PORT_PARA_BOB_LIBP2P_R}
     expose:
       - ${PORT_PARA_BOB_LIBP2P}
-      - ${PORT_RELAY_ALICE_LIBP2P}
+      - ${PORT_PARA_BOB_LIBP2P_R}
 
   register-parachain:
     build: scripts/registerParachain
