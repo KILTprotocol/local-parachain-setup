@@ -58,6 +58,6 @@ Albi adjusted the project to support two environments required to spin up two do
          "--bootnodes",
          "/ip4/78.46.69.208/tcp/R2_P2P_PORT_CHARLIE/p2p/12D3KooWPaFM8dPrm5GodDmggNPNLrKLUzDnLYuEStVZ7sesjrrW"
    ```
-   2. Restart bob (holds para1 data) pointing to relay2 instead of rlay1: `./update.sh kilt-collator-bob 1`
+   2. Restart bob (holds para1 data) pointing to relay2 instead of relay1: `./update.sh kilt-collator-bob 1`
    3. Restart alice pointing to relay2 instead of relay1: `./update.sh kilt-collator-alice 1`
 9. Should see new blocks being finalized on top of the head of Para1
