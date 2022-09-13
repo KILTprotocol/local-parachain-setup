@@ -1,4 +1,4 @@
-KILT_IMG=kilt-collator:testing-fork-init
+KILT_IMG=kiltprotocol/kilt-node:1.7.2
 KILT_SOURCE_SPEC=dev
 KILT_RUNTIME=peregrine
 

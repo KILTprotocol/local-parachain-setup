@@ -1,4 +1,3 @@
-
 # Para to Para Test Guide
 
 Albi adjusted the project to support two environments required to spin up two docker networks which each runs a rococo relay chain and a parachain.
@@ -24,23 +23,25 @@ Albi adjusted the project to support two environments required to spin up two do
 1. Run first network: `./run.sh 1`
 2. On Relay 1:
    1. Transfer >= 1 ROC to Account of ParaId 2086 `5Ec4AhNtskxrg56TpEJ8zweU5h4JVUmGgxDqnoE1grqycu6q`
-   2. Reserve ParaId (will be 2000) with any account: `Network > Parachains > Parathreads > ParaId > + ParaId` 
-   3. Register ParaThread 2000 (could take same genesis and wasm as created by script): `Network > Parachains > Parathreads > ParaId > + ParaThread` 
-   4. The registrar account of the parachain 2000 calls `registrar.swapLease(2000, 2086)`
+   2. Reserve ParaId (will be 2000) with any account: `Network > Parachains > Parathreads > ParaId > + ParaId`
+   3. Register ParaThread 2000 (could take same genesis and wasm as created by script): `Network > Parachains > Parathreads > ParaId > + ParaThread`
+   4. The registrar account of the parachain 2000 calls `registrar.swap(2000, 2086)`
 3. On Para1
    1. Set council: `sudo.council.setMembers([Alice])`
    2. Remove strict relay block number requirement: `council > Motion > propose motion > relayMigration.disable...)`
    3. Swap ParaLease with 2000: `council > Motion > propose motion > relayMigration.send_swap_call_bytes(0x1a0326080000d0070000, 1000000000000, 10000000000)`
+
 ```
          swap call: 0x1a0326080000d0070000
          balance:   1000000000000
                       10000000000
 ```
+
 4. On Relay 1: Should see Para 2086 being downgraded
 5. On Para1: Get header of last block: `Developer > Javascript > console.log((await api.rpc.chain.getHeader()).toHex())`
 6. Run second network: `./run.sh 2`
-7. On Para2: `sudo > soloToPara.scheduleMigration(wasm from setup 1, header from 5.)`
-8. Once migration is complete (Para2 stops producing block): 
+7. On Para2: `sudo > soloToPara.scheduleMigration(wasm from setup 1 (kilt1.wasm), header from 5.)`
+8. Once migration is complete (Para2 stops producing block):
    1. In [docker-compose.yml](./docker-compose.yml) `kilt-collator-alice` and `kilt-collator-bob` Comment out relay chain spec and bootnodes and uncomment similar section below. **Also change the hardcoded relay2 validator p2p ports!**
    ```
          # "--chain=${RELAY_CHAIN_SPEC}",
@@ -61,3 +62,9 @@ Albi adjusted the project to support two environments required to spin up two do
    2. Restart bob (holds para1 data) pointing to relay2 instead of relay1: `./update.sh kilt-collator-bob 1`
    3. Restart alice pointing to relay2 instead of relay1: `./update.sh kilt-collator-alice 1`
 9. Should see new blocks being finalized on top of the head of Para1
+
+10. Enable transfers again sudo.dynFilter.setFilter() with no/no/no
+
+Notes:
+Add to Sporran as KnownEndpoint:
+ws://127.0.0.1:42048
