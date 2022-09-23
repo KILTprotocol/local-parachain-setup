@@ -7,6 +7,8 @@ set -o allexport
 source .env$1
 set +o allexport
 
+docker pull $KILT_IMG
+
 # PROJECT_NAME = <user_id>-<current_directory_name>
 PROJECT_NAME=$USER-${PWD##*/}$1
 
