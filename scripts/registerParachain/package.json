@@ -1,11 +1,12 @@
 {
   "name": "js",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "main": "index.js",
   "license": "MIT",
   "dependencies": {
-    "@polkadot/api": "^7.13.1",
-    "@polkadot/util-crypto": "^8.6.1",
+    "@polkadot/api": "^9.5.1",
+    "@polkadot/util": "^10.1.10",
+    "@polkadot/util-crypto": "^10.1.10",
     "fs": "^0.0.1-security",
     "path": "^0.12.7"
   }
