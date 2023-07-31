@@ -5,6 +5,7 @@ services:
     image: ${RELAY_IMG}
     command:
       [
+        "-lparachain=debug",
         "--port=${PORT_RELAY_ALICE_LIBP2P}",
         "--no-mdns",
         "--chain=${RELAY_CHAIN_SPEC}",
@@ -37,6 +38,7 @@ services:
     image: ${RELAY_IMG}
     command:
       [
+        "-lparachain=debug",
         "--port=${PORT_RELAY_BOB_LIBP2P}",
         "--no-mdns",
         "--chain=${RELAY_CHAIN_SPEC}",
@@ -69,6 +71,7 @@ services:
     image: ${RELAY_IMG}
     command:
       [
+        "-lparachain=debug",
         "--port=${PORT_RELAY_CHARLIE_LIBP2P}",
         "--no-mdns",
         "--chain=${RELAY_CHAIN_SPEC}",
@@ -102,14 +105,14 @@ services:
     volumes:
       - ./specs:/data/spec/
       # - ./volume/kilt-alice/key:/data/key
-      - ./volume/kilt-alice/db:/data/db-para
+      # - ./volume/kilt-alice/db:/data/db-para
     command:
       [
         "-d=/data/db-para",
         "--node-key-file=/data/spec/para-kilt/alice.key",
-        "--keystore-path=/data/key",
-        "--port=${PORT_PARA_ALICE_LIBP2P}",
-        "--ws-port=${PORT_PARA_ALICE_WS}",
+        # "--keystore-path=/data/key",
+        "--port=${PORT_KILT_ALICE_LIBP2P}",
+        "--ws-port=${PORT_KILT_ALICE_WS}",
         "--chain=${KILT_RAW_SPEC_FILE}",
         "--runtime=${KILT_RUNTIME}",
         "--alice",
@@ -121,7 +124,7 @@ services:
         "--unsafe-rpc-external",
         "--rpc-methods=unsafe",
         "--bootnodes",
-        "/dns4/kilt-collator-bob/tcp/${PORT_PARA_BOB_LIBP2P}/p2p/12D3KooWMW6NQPgzHkroN6mtnGjfETVPw2G1NqkV5YW7VfzLxHCX",
+        "/dns4/kilt-collator-bob/tcp/${PORT_KILT_BOB_LIBP2P}/p2p/12D3KooWMW6NQPgzHkroN6mtnGjfETVPw2G1NqkV5YW7VfzLxHCX",
         "--execution=wasm",
         "--",
         "--port=${PORT_RELAY_ALICE_LIBP2P}",
@@ -133,34 +136,27 @@ services:
         "/dns4/relay-node-bob/tcp/${PORT_RELAY_BOB_LIBP2P}/p2p/12D3KooWGFFpuUgFSFwNVLeVhNJ6m25jgv15pK8xcbdqaAj9gfnc",
         "--bootnodes",
         "/dns4/relay-node-charlie/tcp/${PORT_RELAY_CHARLIE_LIBP2P}/p2p/12D3KooWPaFM8dPrm5GodDmggNPNLrKLUzDnLYuEStVZ7sesjrrW"
-        # "--chain=/data/spec/rococo-0.9.27.raw2.json",
-        # "--bootnodes",
-        # "/ip4/78.46.69.208/tcp/20333/p2p/12D3KooWPU8zhfbYjr6mGuDdrrkQMFfDm2edXFYkkkmyCBont8K5",
-        # "--bootnodes",
-        # "/ip4/78.46.69.208/tcp/20334/p2p/12D3KooWGFFpuUgFSFwNVLeVhNJ6m25jgv15pK8xcbdqaAj9gfnc",
-        # "--bootnodes",
-        # "/ip4/78.46.69.208/tcp/20335/p2p/12D3KooWPaFM8dPrm5GodDmggNPNLrKLUzDnLYuEStVZ7sesjrrW"
       ]
     ports:
-      - ${PORT_PARA_ALICE_WS}:${PORT_PARA_ALICE_WS}
-      - ${PORT_PARA_ALICE_LIBP2P}:${PORT_PARA_ALICE_LIBP2P}
+      - ${PORT_KILT_ALICE_WS}:${PORT_KILT_ALICE_WS}
+      - ${PORT_KILT_ALICE_LIBP2P}:${PORT_KILT_ALICE_LIBP2P}
     expose:
-      - ${PORT_PARA_ALICE_LIBP2P}
+      - ${PORT_KILT_ALICE_LIBP2P}
       - ${PORT_RELAY_ALICE_LIBP2P}
 
   kilt-collator-bob:
     image: ${KILT_IMG}
     volumes:
       - ./specs:/data/spec/
-      - ./volume/kilt-bob${NAME}/key:/data/key
-      - ./volume/kilt-bob${NAME}/db:/data/db-para
+      # - ./volume/kilt-bob${NAME}/key:/data/key
+      # - ./volume/kilt-bob${NAME}/db:/data/db-para
     command:
       [
         "-d=/data/db-para",
         "--node-key-file=/data/spec/para-kilt/bob.key",
         "--keystore-path=/data/key",
-        "--port=${PORT_PARA_BOB_LIBP2P}",
-        "--ws-port=${PORT_PARA_BOB_WS}",
+        "--port=${PORT_KILT_BOB_LIBP2P}",
+        "--ws-port=${PORT_KILT_BOB_WS}",
         "--chain=${KILT_RAW_SPEC_FILE}",
         "--runtime=${KILT_RUNTIME}",
         "--bob",
@@ -172,12 +168,11 @@ services:
         "--unsafe-rpc-external",
         "--rpc-methods=unsafe",
         "--bootnodes",
-        "/dns4/kilt-collator-alice/tcp/${PORT_PARA_ALICE_LIBP2P}/p2p/12D3KooWPn1AKtsLYy6EYtXBgb6fQNw4MkLeBsyvPRV5DxAhvQ8M",
+        "/dns4/kilt-collator-alice/tcp/${PORT_KILT_ALICE_LIBP2P}/p2p/12D3KooWPn1AKtsLYy6EYtXBgb6fQNw4MkLeBsyvPRV5DxAhvQ8M",
         "--execution=wasm",
         "--",
         "--no-mdns",
         "-d=/data/db-relay",
-        "--port=${PORT_PARA_BOB_LIBP2P_R}",
         "--execution=wasm",
         "--chain=${RELAY_CHAIN_SPEC}",
         "--bootnodes",
@@ -186,31 +181,132 @@ services:
         "/dns4/relay-node-bob/tcp/${PORT_RELAY_BOB_LIBP2P}/p2p/12D3KooWGFFpuUgFSFwNVLeVhNJ6m25jgv15pK8xcbdqaAj9gfnc",
         "--bootnodes",
         "/dns4/relay-node-charlie/tcp/${PORT_RELAY_CHARLIE_LIBP2P}/p2p/12D3KooWPaFM8dPrm5GodDmggNPNLrKLUzDnLYuEStVZ7sesjrrW"
-        # "--chain=/data/spec/rococo-0.9.27.raw2.json",
-        # "--bootnodes",
-        # "/ip4/78.46.69.208/tcp/20333/p2p/12D3KooWPU8zhfbYjr6mGuDdrrkQMFfDm2edXFYkkkmyCBont8K5",
-        # "--bootnodes",
-        # "/ip4/78.46.69.208/tcp/20334/p2p/12D3KooWGFFpuUgFSFwNVLeVhNJ6m25jgv15pK8xcbdqaAj9gfnc",
-        # "--bootnodes",
-        # "/ip4/78.46.69.208/tcp/20335/p2p/12D3KooWPaFM8dPrm5GodDmggNPNLrKLUzDnLYuEStVZ7sesjrrW"
       ]
     ports:
-      - ${PORT_PARA_BOB_WS}:${PORT_PARA_BOB_WS}
-      - ${PORT_PARA_BOB_LIBP2P}:${PORT_PARA_BOB_LIBP2P}
-      - ${PORT_PARA_BOB_LIBP2P_R}:${PORT_PARA_BOB_LIBP2P_R}
+      - ${PORT_KILT_BOB_WS}:${PORT_KILT_BOB_WS}
+      - ${PORT_KILT_BOB_LIBP2P}:${PORT_KILT_BOB_LIBP2P}
     expose:
-      - ${PORT_PARA_BOB_LIBP2P}
-      - ${PORT_PARA_BOB_LIBP2P_R}
+      - ${PORT_KILT_BOB_LIBP2P}
 
-  register-parachain:
+  clone-collator-alice:
+    image: ${KILT_IMG}
+    volumes:
+      - ./specs:/data/spec/
+      # - ./volume/kilt-alice/key:/data/key
+      # - ./volume/kilt-alice/db:/data/db-para
+    command:
+      [
+        "-d=/data/db-para",
+        "--node-key-file=/data/spec/para-kilt/alice.key",
+        # "--keystore-path=/data/key",
+        "--port=${PORT_CLONE_ALICE_LIBP2P}",
+        "--ws-port=${PORT_CLONE_ALICE_WS}",
+        "--chain=${CLONE_RAW_SPEC_FILE}",
+        "--runtime=${CLONE_RUNTIME}",
+        "--alice",
+        "--collator",
+        "--no-mdns",
+        "--ws-external",
+        "--rpc-external",
+        "--rpc-cors=all",
+        "--unsafe-rpc-external",
+        "--rpc-methods=unsafe",
+        "--bootnodes",
+        "/dns4/clone-collator-bob/tcp/${PORT_CLONE_BOB_LIBP2P}/p2p/12D3KooWMW6NQPgzHkroN6mtnGjfETVPw2G1NqkV5YW7VfzLxHCX",
+        "--execution=wasm",
+        "--",
+        "--port=${PORT_RELAY_ALICE_LIBP2P}",
+        "--execution=wasm",
+        "--chain=${RELAY_CHAIN_SPEC}",
+        "--bootnodes",
+        "/dns4/relay-node-alice/tcp/${PORT_RELAY_ALICE_LIBP2P}/p2p/12D3KooWPU8zhfbYjr6mGuDdrrkQMFfDm2edXFYkkkmyCBont8K5",
+        "--bootnodes",
+        "/dns4/relay-node-bob/tcp/${PORT_RELAY_BOB_LIBP2P}/p2p/12D3KooWGFFpuUgFSFwNVLeVhNJ6m25jgv15pK8xcbdqaAj9gfnc",
+        "--bootnodes",
+        "/dns4/relay-node-charlie/tcp/${PORT_RELAY_CHARLIE_LIBP2P}/p2p/12D3KooWPaFM8dPrm5GodDmggNPNLrKLUzDnLYuEStVZ7sesjrrW"
+      ]
+    ports:
+      - ${PORT_CLONE_ALICE_WS}:${PORT_CLONE_ALICE_WS}
+      - ${PORT_CLONE_ALICE_LIBP2P}:${PORT_CLONE_ALICE_LIBP2P}
+    expose:
+      - ${PORT_CLONE_ALICE_LIBP2P}
+      - ${PORT_RELAY_ALICE_LIBP2P}
+
+  clone-collator-bob:
+    image: ${KILT_IMG}
+    volumes:
+      - ./specs:/data/spec/
+      # - ./volume/kilt-bob${NAME}/key:/data/key
+      # - ./volume/kilt-bob${NAME}/db:/data/db-para
+    command:
+      [
+        "-d=/data/db-para",
+        "--node-key-file=/data/spec/para-kilt/bob.key",
+        "--keystore-path=/data/key",
+        "--port=${PORT_CLONE_BOB_LIBP2P}",
+        "--ws-port=${PORT_CLONE_BOB_WS}",
+        "--chain=${CLONE_RAW_SPEC_FILE}",
+        "--runtime=${CLONE_RUNTIME}",
+        "--bob",
+        "--collator",
+        "--no-mdns",
+        "--ws-external",
+        "--rpc-external",
+        "--rpc-cors=all",
+        "--unsafe-rpc-external",
+        "--rpc-methods=unsafe",
+        "--bootnodes",
+        "/dns4/clone-collator-alice/tcp/${PORT_CLONE_ALICE_LIBP2P}/p2p/12D3KooWPn1AKtsLYy6EYtXBgb6fQNw4MkLeBsyvPRV5DxAhvQ8M",
+        "--execution=wasm",
+        "--",
+        "--no-mdns",
+        "-d=/data/db-relay",
+        "--execution=wasm",
+        "--chain=${RELAY_CHAIN_SPEC}",
+        "--bootnodes",
+        "/dns4/relay-node-alice/tcp/${PORT_RELAY_ALICE_LIBP2P}/p2p/12D3KooWPU8zhfbYjr6mGuDdrrkQMFfDm2edXFYkkkmyCBont8K5",
+        "--bootnodes",
+        "/dns4/relay-node-bob/tcp/${PORT_RELAY_BOB_LIBP2P}/p2p/12D3KooWGFFpuUgFSFwNVLeVhNJ6m25jgv15pK8xcbdqaAj9gfnc",
+        "--bootnodes",
+        "/dns4/relay-node-charlie/tcp/${PORT_RELAY_CHARLIE_LIBP2P}/p2p/12D3KooWPaFM8dPrm5GodDmggNPNLrKLUzDnLYuEStVZ7sesjrrW"
+      ]
+    ports:
+      - ${PORT_CLONE_BOB_WS}:${PORT_CLONE_BOB_WS}
+      - ${PORT_CLONE_BOB_LIBP2P}:${PORT_CLONE_BOB_LIBP2P}
+    expose:
+      - ${PORT_CLONE_BOB_LIBP2P}
+
+  tesseract:
+    restart: unless-stopped
+    image: tesseract
+    volumes:
+      - ./specs:/data
+    command: --config /data/tesseract.config.toml
+    environment:
+      - RUST_LOG=debug
+
+  register-parachain-kilt:
     build: scripts/registerParachain
     environment:
       RELAY_WS_ENDPOINT: ws://relay-node-alice:${PORT_RELAY_ALICE_WS}
-      PARA_ID: ${PARA_ID}
+      PARA_ID: ${PARA_ID_KILT}
       RELAY_SUDO: ${RELAY_SUDO_KEY}
-      PARA_WASM: ${PARA_WASM}
-      PARA_GENESIS: ${PARA_GENESIS}
+      PARA_WASM: ${KILT_WASM}
+      PARA_GENESIS: ${KILT_GENESIS}
     image: node-register-parachain
     volumes:
       - ./specs:/wasm
     command: sh -c "sleep 20 && node index.js"
+
+  register-parachain-clone:
+    build: scripts/registerParachain
+    environment:
+      RELAY_WS_ENDPOINT: ws://relay-node-alice:${PORT_RELAY_ALICE_WS}
+      PARA_ID: ${PARA_ID_CLONE}
+      RELAY_SUDO: ${RELAY_SUDO_KEY}
+      PARA_WASM: ${CLONE_WASM}
+      PARA_GENESIS: ${CLONE_GENESIS}
+    image: node-register-parachain
+    volumes:
+      - ./specs:/wasm
+    command: sh -c "sleep 60 && node index.js"
